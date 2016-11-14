@@ -13,7 +13,7 @@ public class JavaServer {
 	public static CalculatorHandler handler;
 	public static Calculator.Processor processor;
 	public static int port;
-	public static Logger log;
+	public static Utils.Logger log;
 
 	/**
 	 uso : java -jar Server.jar -p [PORTA] -t [DELAY DE INICIALIZAÇÃO] [PORTA DO OUTRO SERVER] [PORTA DO OUTRO SERVER]...
@@ -30,7 +30,7 @@ public class JavaServer {
 	public static void main(final String[] args) throws InterruptedException {
 		long time = Long.parseLong(args[3]);
 		port = Integer.parseInt(args[1]);
-		log = new Logger("log" + port);
+		log = new Utils(). new Logger("log" + port);
 		Integer[] servidores = new Integer[args.length - 4];
 		for (int i = 0; i < (args.length - 4); i++) {
 			servidores[i] = Integer.parseInt(args[i + 4]);

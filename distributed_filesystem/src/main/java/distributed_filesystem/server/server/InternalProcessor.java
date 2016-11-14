@@ -28,8 +28,16 @@ public class InternalProcessor implements Runnable {
 			client = new Calculator.Client(protocol);
 		} catch (TTransportException e) {
 			JavaServer.log.info("Falha ao criar conexão " + port);
-			Thread.sleep(2000);
-			iniciar();
+			Thread.sleep(Utils.TIME_REQ_TRY);
+			Runnable r = new Runnable() {
+				public void run(){
+					try {
+						iniciar();
+					} catch (InterruptedException e) {
+					}
+				}
+			};
+			new Thread(r).start();
 		}
 
 	}
@@ -38,6 +46,7 @@ public class InternalProcessor implements Runnable {
 		while (true) {
 			try {
 				client.ping();
+				JavaServer.log.info(client.add(1, 1));
 				JavaServer.log.info("Servidor conectado. Porta " + port);
 			} catch (Exception e) {
 				try {
@@ -47,7 +56,7 @@ public class InternalProcessor implements Runnable {
 				}
 			} finally {
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(Utils.TIME_REQ_TRY);
 				} catch (InterruptedException e) {
 					JavaServer.log.info("Falha. TInterruptedException na porta " + port);
 				}

@@ -36,7 +36,7 @@ public class RequestProcessor {
 
     public void ping() throws org.apache.thrift.TException;
 
-    public Retorno request(String request) throws org.apache.thrift.TException;
+    public Retorno request(String request, ByteBuffer content) throws org.apache.thrift.TException;
 
     public void zip() throws org.apache.thrift.TException;
 
@@ -46,7 +46,7 @@ public class RequestProcessor {
 
     public void ping(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.ping_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void request(String request, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.request_call> resultHandler) throws org.apache.thrift.TException;
+    public void request(String request, ByteBuffer content, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.request_call> resultHandler) throws org.apache.thrift.TException;
 
     public void zip(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.zip_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -91,16 +91,17 @@ public class RequestProcessor {
       return;
     }
 
-    public Retorno request(String request) throws org.apache.thrift.TException
+    public Retorno request(String request, ByteBuffer content) throws org.apache.thrift.TException
     {
-      send_request(request);
+      send_request(request, content);
       return recv_request();
     }
 
-    public void send_request(String request) throws org.apache.thrift.TException
+    public void send_request(String request, ByteBuffer content) throws org.apache.thrift.TException
     {
       request_args args = new request_args();
       args.setRequest(request);
+      args.setContent(content);
       sendBase("request", args);
     }
 
@@ -172,24 +173,27 @@ public class RequestProcessor {
       }
     }
 
-    public void request(String request, org.apache.thrift.async.AsyncMethodCallback<request_call> resultHandler) throws org.apache.thrift.TException {
+    public void request(String request, ByteBuffer content, org.apache.thrift.async.AsyncMethodCallback<request_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      request_call method_call = new request_call(request, resultHandler, this, ___protocolFactory, ___transport);
+      request_call method_call = new request_call(request, content, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class request_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String request;
-      public request_call(String request, org.apache.thrift.async.AsyncMethodCallback<request_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private ByteBuffer content;
+      public request_call(String request, ByteBuffer content, org.apache.thrift.async.AsyncMethodCallback<request_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
+        this.content = content;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("request", org.apache.thrift.protocol.TMessageType.CALL, 0));
         request_args args = new request_args();
         args.setRequest(request);
+        args.setContent(content);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -286,7 +290,7 @@ public class RequestProcessor {
 
       public request_result getResult(I iface, request_args args) throws org.apache.thrift.TException {
         request_result result = new request_result();
-        result.success = iface.request(args.request);
+        result.success = iface.request(args.request, args.content);
         return result;
       }
     }
@@ -398,7 +402,7 @@ public class RequestProcessor {
       return new ping_args(this);
     }
 
-   
+    @Override
     public void clear() {
     }
 
@@ -424,7 +428,7 @@ public class RequestProcessor {
       throw new IllegalStateException();
     }
 
-   
+    @Override
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -440,7 +444,7 @@ public class RequestProcessor {
       return true;
     }
 
-   
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -468,7 +472,7 @@ public class RequestProcessor {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-   
+    @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("ping_args(");
       boolean first = true;
@@ -545,12 +549,12 @@ public class RequestProcessor {
 
     private static class ping_argsTupleScheme extends TupleScheme<ping_args> {
 
-     
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
-     
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
@@ -644,7 +648,7 @@ public class RequestProcessor {
       return new ping_result(this);
     }
 
-   
+    @Override
     public void clear() {
     }
 
@@ -670,7 +674,7 @@ public class RequestProcessor {
       throw new IllegalStateException();
     }
 
-   
+    @Override
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -686,7 +690,7 @@ public class RequestProcessor {
       return true;
     }
 
-   
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -714,7 +718,7 @@ public class RequestProcessor {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-   
+    @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("ping_result(");
       boolean first = true;
@@ -791,12 +795,12 @@ public class RequestProcessor {
 
     private static class ping_resultTupleScheme extends TupleScheme<ping_result> {
 
-     
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
-     
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
@@ -808,6 +812,7 @@ public class RequestProcessor {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("request_args");
 
     private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CONTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("content", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -816,10 +821,12 @@ public class RequestProcessor {
     }
 
     public String request; // required
+    public ByteBuffer content; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      REQUEST((short)1, "request");
+      REQUEST((short)1, "request"),
+      CONTENT((short)2, "content");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -836,6 +843,8 @@ public class RequestProcessor {
         switch(fieldId) {
           case 1: // REQUEST
             return REQUEST;
+          case 2: // CONTENT
+            return CONTENT;
           default:
             return null;
         }
@@ -881,6 +890,8 @@ public class RequestProcessor {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.CONTENT, new org.apache.thrift.meta_data.FieldMetaData("content", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(request_args.class, metaDataMap);
     }
@@ -889,10 +900,12 @@ public class RequestProcessor {
     }
 
     public request_args(
-      String request)
+      String request,
+      ByteBuffer content)
     {
       this();
       this.request = request;
+      this.content = content;
     }
 
     /**
@@ -902,15 +915,20 @@ public class RequestProcessor {
       if (other.isSetRequest()) {
         this.request = other.request;
       }
+      if (other.isSetContent()) {
+        this.content = org.apache.thrift.TBaseHelper.copyBinary(other.content);
+;
+      }
     }
 
     public request_args deepCopy() {
       return new request_args(this);
     }
 
-   
+    @Override
     public void clear() {
       this.request = null;
+      this.content = null;
     }
 
     public String getRequest() {
@@ -937,6 +955,40 @@ public class RequestProcessor {
       }
     }
 
+    public byte[] getContent() {
+      setContent(org.apache.thrift.TBaseHelper.rightSize(content));
+      return content == null ? null : content.array();
+    }
+
+    public ByteBuffer bufferForContent() {
+      return content;
+    }
+
+    public request_args setContent(byte[] content) {
+      setContent(content == null ? (ByteBuffer)null : ByteBuffer.wrap(content));
+      return this;
+    }
+
+    public request_args setContent(ByteBuffer content) {
+      this.content = content;
+      return this;
+    }
+
+    public void unsetContent() {
+      this.content = null;
+    }
+
+    /** Returns true if field content is set (has been assigned a value) and false otherwise */
+    public boolean isSetContent() {
+      return this.content != null;
+    }
+
+    public void setContentIsSet(boolean value) {
+      if (!value) {
+        this.content = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case REQUEST:
@@ -947,6 +999,14 @@ public class RequestProcessor {
         }
         break;
 
+      case CONTENT:
+        if (value == null) {
+          unsetContent();
+        } else {
+          setContent((ByteBuffer)value);
+        }
+        break;
+
       }
     }
 
@@ -954,6 +1014,9 @@ public class RequestProcessor {
       switch (field) {
       case REQUEST:
         return getRequest();
+
+      case CONTENT:
+        return getContent();
 
       }
       throw new IllegalStateException();
@@ -968,11 +1031,13 @@ public class RequestProcessor {
       switch (field) {
       case REQUEST:
         return isSetRequest();
+      case CONTENT:
+        return isSetContent();
       }
       throw new IllegalStateException();
     }
 
-   
+    @Override
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -994,10 +1059,19 @@ public class RequestProcessor {
           return false;
       }
 
+      boolean this_present_content = true && this.isSetContent();
+      boolean that_present_content = true && that.isSetContent();
+      if (this_present_content || that_present_content) {
+        if (!(this_present_content && that_present_content))
+          return false;
+        if (!this.content.equals(that.content))
+          return false;
+      }
+
       return true;
     }
 
-   
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -1020,6 +1094,16 @@ public class RequestProcessor {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetContent()).compareTo(typedOther.isSetContent());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetContent()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.content, typedOther.content);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1035,7 +1119,7 @@ public class RequestProcessor {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-   
+    @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("request_args(");
       boolean first = true;
@@ -1045,6 +1129,14 @@ public class RequestProcessor {
         sb.append("null");
       } else {
         sb.append(this.request);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("content:");
+      if (this.content == null) {
+        sb.append("null");
+      } else {
+        org.apache.thrift.TBaseHelper.toString(this.content, sb);
       }
       first = false;
       sb.append(")");
@@ -1098,6 +1190,14 @@ public class RequestProcessor {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // CONTENT
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.content = iprot.readBinary();
+                struct.setContentIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -1118,6 +1218,11 @@ public class RequestProcessor {
           oprot.writeString(struct.request);
           oprot.writeFieldEnd();
         }
+        if (struct.content != null) {
+          oprot.writeFieldBegin(CONTENT_FIELD_DESC);
+          oprot.writeBinary(struct.content);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1132,26 +1237,36 @@ public class RequestProcessor {
 
     private static class request_argsTupleScheme extends TupleScheme<request_args> {
 
-     
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, request_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetRequest()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetContent()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetRequest()) {
           oprot.writeString(struct.request);
         }
+        if (struct.isSetContent()) {
+          oprot.writeBinary(struct.content);
+        }
       }
 
-     
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, request_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.request = iprot.readString();
           struct.setRequestIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.content = iprot.readBinary();
+          struct.setContentIsSet(true);
         }
       }
     }
@@ -1262,7 +1377,7 @@ public class RequestProcessor {
       return new request_result(this);
     }
 
-   
+    @Override
     public void clear() {
       this.success = null;
     }
@@ -1326,7 +1441,7 @@ public class RequestProcessor {
       throw new IllegalStateException();
     }
 
-   
+    @Override
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -1351,7 +1466,7 @@ public class RequestProcessor {
       return true;
     }
 
-   
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -1389,7 +1504,7 @@ public class RequestProcessor {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-   
+    @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("request_result(");
       boolean first = true;
@@ -1490,7 +1605,7 @@ public class RequestProcessor {
 
     private static class request_resultTupleScheme extends TupleScheme<request_result> {
 
-     
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, request_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -1503,7 +1618,7 @@ public class RequestProcessor {
         }
       }
 
-     
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, request_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
@@ -1603,7 +1718,7 @@ public class RequestProcessor {
       return new zip_args(this);
     }
 
-   
+    @Override
     public void clear() {
     }
 
@@ -1629,7 +1744,7 @@ public class RequestProcessor {
       throw new IllegalStateException();
     }
 
-   
+    @Override
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -1645,7 +1760,7 @@ public class RequestProcessor {
       return true;
     }
 
-   
+    @Override
     public int hashCode() {
       return 0;
     }
@@ -1673,7 +1788,7 @@ public class RequestProcessor {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-   
+    @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("zip_args(");
       boolean first = true;
@@ -1750,12 +1865,12 @@ public class RequestProcessor {
 
     private static class zip_argsTupleScheme extends TupleScheme<zip_args> {
 
-     
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, zip_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
-     
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, zip_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }

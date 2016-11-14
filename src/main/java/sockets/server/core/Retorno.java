@@ -192,7 +192,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     return new Retorno(this);
   }
 
- 
+  @Override
   public void clear() {
     this.status = null;
     setVersaoIsSet(false);
@@ -426,7 +426,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     throw new IllegalStateException();
   }
 
- 
+  @Override
   public boolean equals(Object that) {
     if (that == null)
       return false;
@@ -487,7 +487,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     return true;
   }
 
- 
+  @Override
   public int hashCode() {
     return 0;
   }
@@ -565,7 +565,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
   }
 
- 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("Retorno(");
     boolean first = true;
@@ -734,7 +734,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
 
   private static class RetornoTupleScheme extends TupleScheme<Retorno> {
 
-   
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol prot, Retorno struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
@@ -771,7 +771,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       }
     }
 
-   
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Retorno struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(5);

@@ -1,5 +1,6 @@
 package sockets.server.server;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 import org.apache.thrift.TException;
@@ -35,7 +36,8 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 		Server.log.infoClient("zip()");
 	}
 
-	public Retorno request(String request) throws TException {
+	@Override
+	public Retorno request(String request, ByteBuffer content) throws TException {
 		Retorno r = new Retorno();
 		r.setStatus(RetornoStatus.OK);
 		r.setCriado(System.currentTimeMillis());

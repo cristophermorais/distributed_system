@@ -2,13 +2,6 @@ include "shared.thrift"
 
 namespace java sockets.server.core
 
-struct Work {
-  1: string path,
-  2: i32 conteudo_length,
-  3: Operation op,
-  4: optional binary conteudo
-}
-
 enum RetornoStatus {
   OK = 200,
   NO_CONTENT = 204,
@@ -28,7 +21,7 @@ service RequestProcessor extends shared.SharedService {
 
    void ping(),
 
-   Retorno request(1:i32 logid, 2:Work w) throws (1:InvalidOperation ouch),
+   Retorno request(1:string request, 2:binary content),
 
    oneway void zip()
 

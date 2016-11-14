@@ -30,36 +30,21 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Calculator {
+public class RequestProcessor {
 
-  /**
-   * Ahh, now onto the cool part, defining a service. Services just need a name
-   * and can optionally inherit from another service using the extends keyword.
-   */
-  public interface Iface extends sockets.server.shared.SharedService.Iface {
+  public interface Iface extends sockets.server.core.SharedService.Iface {
 
-    /**
-     * A method definition looks like C code. It has a return type, arguments,
-     * and optionally a list of exceptions that it may throw. Note that argument
-     * lists and exception lists are specified using the exact same syntax as
-     * field lists in struct or exception definitions.
-     */
     public void ping() throws org.apache.thrift.TException;
 
     public int add(int num1, int num2) throws org.apache.thrift.TException;
 
-    public int calculate(int logid, Work w) throws InvalidOperation, org.apache.thrift.TException;
+    public Retorno calculate(int logid, Work w) throws InvalidOperation, org.apache.thrift.TException;
 
-    /**
-     * This method has a oneway modifier. That means the client only makes
-     * a request and does not listen for any response at all. Oneway methods
-     * must be void.
-     */
     public void zip() throws org.apache.thrift.TException;
 
   }
 
-  public interface AsyncIface extends sockets.server.shared.SharedService.AsyncIface {
+  public interface AsyncIface extends sockets.server.core.SharedService .AsyncIface {
 
     public void ping(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.ping_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -71,7 +56,7 @@ public class Calculator {
 
   }
 
-  public static class Client extends sockets.server.shared.SharedService.Client implements Iface {
+  public static class Client extends sockets.server.core.SharedService.Client implements Iface {
     public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
       public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
@@ -134,7 +119,7 @@ public class Calculator {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "add failed: unknown result");
     }
 
-    public int calculate(int logid, Work w) throws InvalidOperation, org.apache.thrift.TException
+    public Retorno calculate(int logid, Work w) throws InvalidOperation, org.apache.thrift.TException
     {
       send_calculate(logid, w);
       return recv_calculate();
@@ -148,7 +133,7 @@ public class Calculator {
       sendBase("calculate", args);
     }
 
-    public int recv_calculate() throws InvalidOperation, org.apache.thrift.TException
+    public Retorno recv_calculate() throws InvalidOperation, org.apache.thrift.TException
     {
       calculate_result result = new calculate_result();
       receiveBase(result, "calculate");
@@ -173,7 +158,7 @@ public class Calculator {
     }
 
   }
-  public static class AsyncClient extends sockets.server.shared.SharedService.AsyncClient implements AsyncIface {
+  public static class AsyncClient extends sockets.server.core.SharedService.AsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
       private org.apache.thrift.async.TAsyncClientManager clientManager;
       private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
@@ -279,7 +264,7 @@ public class Calculator {
         prot.writeMessageEnd();
       }
 
-      public int getResult() throws InvalidOperation, org.apache.thrift.TException {
+      public Retorno getResult() throws InvalidOperation, org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -319,7 +304,7 @@ public class Calculator {
 
   }
 
-  public static class Processor<I extends Iface> extends sockets.server.shared.SharedService.Processor<I> implements org.apache.thrift.TProcessor {
+  public static class Processor<I extends Iface> extends sockets.server.core.SharedService.Processor<I> implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(I iface) {
       super(iface, getProcessMap(new HashMap<String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>>()));
@@ -395,7 +380,6 @@ public class Calculator {
         calculate_result result = new calculate_result();
         try {
           result.success = iface.calculate(args.logid, args.w);
-          result.setSuccessIsSet(true);
         } catch (InvalidOperation ouch) {
           result.ouch = ouch;
         }
@@ -510,6 +494,7 @@ public class Calculator {
       return new ping_args(this);
     }
 
+   
     public void clear() {
     }
 
@@ -535,7 +520,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -551,7 +536,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -579,7 +564,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("ping_args(");
       boolean first = true;
@@ -656,10 +641,12 @@ public class Calculator {
 
     private static class ping_argsTupleScheme extends TupleScheme<ping_args> {
 
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
@@ -753,6 +740,7 @@ public class Calculator {
       return new ping_result(this);
     }
 
+   
     public void clear() {
     }
 
@@ -778,7 +766,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -794,7 +782,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -822,7 +810,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("ping_result(");
       boolean first = true;
@@ -899,10 +887,12 @@ public class Calculator {
 
     private static class ping_resultTupleScheme extends TupleScheme<ping_result> {
 
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
@@ -1028,6 +1018,7 @@ public class Calculator {
       return new add_args(this);
     }
 
+   
     public void clear() {
       setNum1IsSet(false);
       this.num1 = 0;
@@ -1129,7 +1120,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -1163,7 +1154,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -1211,7 +1202,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("add_args(");
       boolean first = true;
@@ -1319,6 +1310,7 @@ public class Calculator {
 
     private static class add_argsTupleScheme extends TupleScheme<add_args> {
 
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, add_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -1337,6 +1329,7 @@ public class Calculator {
         }
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, add_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
@@ -1459,6 +1452,7 @@ public class Calculator {
       return new add_result(this);
     }
 
+   
     public void clear() {
       setSuccessIsSet(false);
       this.success = 0;
@@ -1522,7 +1516,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -1547,7 +1541,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -1585,7 +1579,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("add_result(");
       boolean first = true;
@@ -1680,7 +1674,7 @@ public class Calculator {
 
     private static class add_resultTupleScheme extends TupleScheme<add_result> {
 
-      
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, add_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -1693,6 +1687,7 @@ public class Calculator {
         }
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, add_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
@@ -1823,7 +1818,7 @@ public class Calculator {
       return new calculate_args(this);
     }
 
-    
+   
     public void clear() {
       setLogidIsSet(false);
       this.logid = 0;
@@ -1925,7 +1920,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -1959,7 +1954,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -2007,7 +2002,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("calculate_args(");
       boolean first = true;
@@ -2125,7 +2120,7 @@ public class Calculator {
 
     private static class calculate_argsTupleScheme extends TupleScheme<calculate_args> {
 
-      
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, calculate_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -2144,7 +2139,7 @@ public class Calculator {
         }
       }
 
-      
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, calculate_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
@@ -2165,7 +2160,7 @@ public class Calculator {
   public static class calculate_result implements org.apache.thrift.TBase<calculate_result, calculate_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("calculate_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I32, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
     private static final org.apache.thrift.protocol.TField OUCH_FIELD_DESC = new org.apache.thrift.protocol.TField("ouch", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
@@ -2174,7 +2169,7 @@ public class Calculator {
       schemes.put(TupleScheme.class, new calculate_resultTupleSchemeFactory());
     }
 
-    public int success; // required
+    public Retorno success; // required
     public InvalidOperation ouch; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -2239,13 +2234,11 @@ public class Calculator {
     }
 
     // isset id assignments
-    private static final int __SUCCESS_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Retorno.class)));
       tmpMap.put(_Fields.OUCH, new org.apache.thrift.meta_data.FieldMetaData("ouch", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -2256,12 +2249,11 @@ public class Calculator {
     }
 
     public calculate_result(
-      int success,
+      Retorno success,
       InvalidOperation ouch)
     {
       this();
       this.success = success;
-      setSuccessIsSet(true);
       this.ouch = ouch;
     }
 
@@ -2269,8 +2261,9 @@ public class Calculator {
      * Performs a deep copy on <i>other</i>.
      */
     public calculate_result(calculate_result other) {
-      __isset_bitfield = other.__isset_bitfield;
-      this.success = other.success;
+      if (other.isSetSuccess()) {
+        this.success = new Retorno(other.success);
+      }
       if (other.isSetOuch()) {
         this.ouch = new InvalidOperation(other.ouch);
       }
@@ -2280,34 +2273,34 @@ public class Calculator {
       return new calculate_result(this);
     }
 
-    
+   
     public void clear() {
-      setSuccessIsSet(false);
-      this.success = 0;
+      this.success = null;
       this.ouch = null;
     }
 
-    public int getSuccess() {
+    public Retorno getSuccess() {
       return this.success;
     }
 
-    public calculate_result setSuccess(int success) {
+    public calculate_result setSuccess(Retorno success) {
       this.success = success;
-      setSuccessIsSet(true);
       return this;
     }
 
     public void unsetSuccess() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+      this.success = null;
     }
 
     /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
-      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+      return this.success != null;
     }
 
     public void setSuccessIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+      if (!value) {
+        this.success = null;
+      }
     }
 
     public InvalidOperation getOuch() {
@@ -2340,7 +2333,7 @@ public class Calculator {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((Integer)value);
+          setSuccess((Retorno)value);
         }
         break;
 
@@ -2358,7 +2351,7 @@ public class Calculator {
     public Object getFieldValue(_Fields field) {
       switch (field) {
       case SUCCESS:
-        return Integer.valueOf(getSuccess());
+        return getSuccess();
 
       case OUCH:
         return getOuch();
@@ -2382,7 +2375,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -2395,12 +2388,12 @@ public class Calculator {
       if (that == null)
         return false;
 
-      boolean this_present_success = true;
-      boolean that_present_success = true;
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
       if (this_present_success || that_present_success) {
         if (!(this_present_success && that_present_success))
           return false;
-        if (this.success != that.success)
+        if (!this.success.equals(that.success))
           return false;
       }
 
@@ -2416,7 +2409,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -2464,13 +2457,17 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("calculate_result(");
       boolean first = true;
 
       sb.append("success:");
-      sb.append(this.success);
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
       first = false;
       if (!first) sb.append(", ");
       sb.append("ouch:");
@@ -2487,6 +2484,9 @@ public class Calculator {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -2499,8 +2499,6 @@ public class Calculator {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -2526,8 +2524,9 @@ public class Calculator {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.success = iprot.readI32();
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Retorno();
+                struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -2557,9 +2556,9 @@ public class Calculator {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.isSetSuccess()) {
+        if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeI32(struct.success);
+          struct.success.write(oprot);
           oprot.writeFieldEnd();
         }
         if (struct.ouch != null) {
@@ -2581,7 +2580,7 @@ public class Calculator {
 
     private static class calculate_resultTupleScheme extends TupleScheme<calculate_result> {
 
-      
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, calculate_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -2593,19 +2592,20 @@ public class Calculator {
         }
         oprot.writeBitSet(optionals, 2);
         if (struct.isSetSuccess()) {
-          oprot.writeI32(struct.success);
+          struct.success.write(oprot);
         }
         if (struct.isSetOuch()) {
           struct.ouch.write(oprot);
         }
       }
 
-      
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, calculate_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.success = iprot.readI32();
+          struct.success = new Retorno();
+          struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
         if (incoming.get(1)) {
@@ -2704,7 +2704,7 @@ public class Calculator {
       return new zip_args(this);
     }
 
-    
+   
     public void clear() {
     }
 
@@ -2730,7 +2730,7 @@ public class Calculator {
       throw new IllegalStateException();
     }
 
-    
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -2746,7 +2746,7 @@ public class Calculator {
       return true;
     }
 
-    
+   
     public int hashCode() {
       return 0;
     }
@@ -2774,7 +2774,7 @@ public class Calculator {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-    
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("zip_args(");
       boolean first = true;
@@ -2851,12 +2851,12 @@ public class Calculator {
 
     private static class zip_argsTupleScheme extends TupleScheme<zip_args> {
 
-      
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, zip_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
-      
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, zip_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }

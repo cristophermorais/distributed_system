@@ -11,18 +11,15 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum Operation implements org.apache.thrift.TEnum {
-  GET(1),
-  LIST(2),
-  ADD(3),
-  UPDATE(4),
-  DELETE(5),
-  UPDATE_VERSION(6),
-  DELETE_VERSION(7);
+public enum RetornoStatus implements org.apache.thrift.TEnum {
+  OK(200),
+  NO_CONTENT(204),
+  NOT_FOUND(404),
+  INTERNAL_ERROR(500);
 
   private final int value;
 
-  private Operation(int value) {
+  private RetornoStatus(int value) {
     this.value = value;
   }
 
@@ -37,22 +34,16 @@ public enum Operation implements org.apache.thrift.TEnum {
    * Find a the enum type by its integer value, as defined in the Thrift IDL.
    * @return null if the value is not found.
    */
-  public static Operation findByValue(int value) { 
+  public static RetornoStatus findByValue(int value) { 
     switch (value) {
-      case 1:
-        return GET;
-      case 2:
-        return LIST;
-      case 3:
-        return ADD;
-      case 4:
-        return UPDATE;
-      case 5:
-        return DELETE;
-      case 6:
-        return UPDATE_VERSION;
-      case 7:
-        return DELETE_VERSION;
+      case 200:
+        return OK;
+      case 204:
+        return NO_CONTENT;
+      case 404:
+        return NOT_FOUND;
+      case 500:
+        return INTERNAL_ERROR;
       default:
         return null;
     }

@@ -8,7 +8,7 @@
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/Server.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="SocketsServer1.3.server.server.Server"/>
+                <attribute name="Main-Class" value="sockets.server.server.Server"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${dir.workspace}/SocketsServer1.3/target/classes"/>

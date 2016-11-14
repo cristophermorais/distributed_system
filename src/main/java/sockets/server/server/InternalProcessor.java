@@ -6,11 +6,11 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
-import sockets.server.core.Calculator;
+import sockets.server.core.RequestProcessor;
 
 public class InternalProcessor implements Runnable {
 	private int port;
-	private Calculator.Client client;
+	private RequestProcessor.Client client;
 	TTransport transport;
 	TProtocol protocol;
 
@@ -24,7 +24,7 @@ public class InternalProcessor implements Runnable {
 		try {
 			transport.open();
 			protocol = new TBinaryProtocol(transport);
-			client = new Calculator.Client(protocol);
+			client = new RequestProcessor.Client(protocol);
 		} catch (TTransportException e) {
 			Server.log.infoServer("Servidor Offline. Porta " + port);
 			Thread.sleep(Utils.TIME_REQ_TRY);

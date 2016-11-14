@@ -6,11 +6,10 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
-import sockets.server.core.Calculator;
 import sockets.server.core.InvalidOperation;
 import sockets.server.core.Operation;
+import sockets.server.core.RequestProcessor;
 import sockets.server.core.Work;
-import sockets.server.shared.SharedStruct;
 
 public class JavaClient {
 	public static void main(String[] args) {
@@ -20,7 +19,7 @@ public class JavaClient {
 			transport = new TSocket("localhost", Integer.parseInt(args[0]));
 			transport.open();
 			TProtocol protocol = new TBinaryProtocol(transport);
-			Calculator.Client client = new Calculator.Client(protocol);
+			RequestProcessor.Client client = new RequestProcessor.Client(protocol);
 
 			perform(client);
 
@@ -30,7 +29,7 @@ public class JavaClient {
 		}
 	}
 
-	private static void perform(Calculator.Client client) throws TException {
+	private static void perform(RequestProcessor.Client client) throws TException {
 		client.ping();
 		System.out.println("ping()");
 
@@ -39,9 +38,9 @@ public class JavaClient {
 
 		Work work = new Work();
 
-		work.op = Operation.DIVIDE;
-		work.num1 = 1;
-		work.num2 = 0;
+//		work.op = Operation.DIVIDE;
+//		work.num1 = 1;
+//		work.num2 = 0;
 		try {
 			client.calculate(1, work);
 			System.out.println("Whoa we can divide by 0");
@@ -49,17 +48,17 @@ public class JavaClient {
 			System.out.println("Invalid operation: " + io.why);
 		}
 
-		work.op = Operation.SUBTRACT;
-		work.num1 = 15;
-		work.num2 = 10;
-		try {
-			int diff = client.calculate(1, work);
-			System.out.println("15-10=" + diff);
-		} catch (InvalidOperation io) {
-			System.out.println("Invalid operation: " + io.why);
-		}
-
-		SharedStruct log = client.getStruct(1);
-		System.out.println("Check log: " + log.value);
+//		work.op = Operation.SUBTRACT;
+//		work.num1 = 15;
+//		work.num2 = 10;
+//		try {
+//			int diff = client.calculate(1, work);
+//			System.out.println("15-10=" + diff);
+//		} catch (InvalidOperation io) {
+//			System.out.println("Invalid operation: " + io.why);
+//		}
+//
+//		SharedStruct log = client.getStruct(1);
+//		System.out.println("Check log: " + log.value);
 	}
 }

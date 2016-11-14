@@ -6,12 +6,12 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
-import sockets.server.core.Calculator;
+import sockets.server.core.RequestProcessor;
 
 public class Server {
 
-	public static CalculatorHandler handler;
-	public static Calculator.Processor processor;
+	public static RequestProcessorHandler handler;
+	public static RequestProcessor.Processor processor;
 	public static int port;
 	public static Utils.Logger log;
 
@@ -36,8 +36,8 @@ public class Server {
 			servidores[i] = Integer.parseInt(args[i + 4]);
 		}
 		try {
-			handler = new CalculatorHandler();
-			processor = new Calculator.Processor(handler);
+			handler = new RequestProcessorHandler();
+			processor = new RequestProcessor.Processor(handler);
 
 			Runnable simple = new Runnable() {
 				public void run() {
@@ -55,7 +55,7 @@ public class Server {
 		}
 	}
 
-	public static void simple(Calculator.Processor processor, Integer port) {
+	public static void simple(RequestProcessor.Processor processor, Integer port) {
 		try {
 			TServerTransport serverTransport = new TServerSocket(port);
 			TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));

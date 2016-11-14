@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package sockets.server.shared;
+package sockets.server.core;
 
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
@@ -148,6 +148,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     return new SharedStruct(this);
   }
 
+ 
   public void clear() {
     setKeyIsSet(false);
     this.key = 0;
@@ -249,7 +250,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     throw new IllegalStateException();
   }
 
-  @Override
+ 
   public boolean equals(Object that) {
     if (that == null)
       return false;
@@ -283,7 +284,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     return true;
   }
 
-  @Override
+ 
   public int hashCode() {
     return 0;
   }
@@ -331,7 +332,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
   }
 
-  @Override
+ 
   public String toString() {
     StringBuilder sb = new StringBuilder("SharedStruct(");
     boolean first = true;
@@ -445,6 +446,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
 
   private static class SharedStructTupleScheme extends TupleScheme<SharedStruct> {
 
+   
     public void write(org.apache.thrift.protocol.TProtocol prot, SharedStruct struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
@@ -463,6 +465,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       }
     }
 
+   
     public void read(org.apache.thrift.protocol.TProtocol prot, SharedStruct struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(2);

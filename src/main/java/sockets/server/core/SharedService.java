@@ -4,21 +4,29 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package sockets.server.shared;
+package sockets.server.core;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
+
 import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -274,6 +282,7 @@ public class SharedService {
       return new getStruct_args(this);
     }
 
+   
     public void clear() {
       setKeyIsSet(false);
       this.key = 0;
@@ -337,7 +346,7 @@ public class SharedService {
       throw new IllegalStateException();
     }
 
-    @Override
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -362,7 +371,7 @@ public class SharedService {
       return true;
     }
 
-    @Override
+   
     public int hashCode() {
       return 0;
     }
@@ -400,7 +409,7 @@ public class SharedService {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
-    @Override
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("getStruct_args(");
       boolean first = true;
@@ -493,6 +502,7 @@ public class SharedService {
 
     private static class getStruct_argsTupleScheme extends TupleScheme<getStruct_args> {
 
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, getStruct_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -505,6 +515,7 @@ public class SharedService {
         }
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, getStruct_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
@@ -621,6 +632,7 @@ public class SharedService {
       return new getStruct_result(this);
     }
 
+   
     public void clear() {
       this.success = null;
     }
@@ -684,7 +696,7 @@ public class SharedService {
       throw new IllegalStateException();
     }
 
-    @Override
+   
     public boolean equals(Object that) {
       if (that == null)
         return false;
@@ -709,7 +721,7 @@ public class SharedService {
       return true;
     }
 
-    @Override
+   
     public int hashCode() {
       return 0;
     }
@@ -747,7 +759,7 @@ public class SharedService {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
-    @Override
+   
     public String toString() {
       StringBuilder sb = new StringBuilder("getStruct_result(");
       boolean first = true;
@@ -848,6 +860,7 @@ public class SharedService {
 
     private static class getStruct_resultTupleScheme extends TupleScheme<getStruct_result> {
 
+     
       public void write(org.apache.thrift.protocol.TProtocol prot, getStruct_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
@@ -860,6 +873,7 @@ public class SharedService {
         }
       }
 
+     
       public void read(org.apache.thrift.protocol.TProtocol prot, getStruct_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);

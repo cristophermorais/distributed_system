@@ -11,10 +11,9 @@ public class Utils {
 
 	public class Logger {
 		private BufferedWriter buffWrite;
-		private final String data = "["+new SimpleDateFormat("dd/MM/YYYY HH:mm:ss").format(new Date())+"] ";
 		private final String cab = "["+Server.port+"] [IC]";
-		private final String cabClient = cab+" [Client] " + data;
-		private final String cabServer = cab+" [Server] " +data;
+		private final String cabClient = cab+" [Client] ";
+		private final String cabServer = cab+" [Server] ";
 
 		public Logger(String name) {
 			try {
@@ -24,27 +23,31 @@ public class Utils {
 		}
 
 		public void infoServer(Object obj) {
-			System.out.println(cabServer + obj.toString());
+			System.out.println(cabServer + getDate() + obj.toString());
 			try {
-				buffWrite.append(cabServer + obj.toString());
+				buffWrite.append(cabServer + getDate() + obj.toString());
 				buffWrite.append("\n");
 				buffWrite.flush();
 			} catch (IOException e) {
-				System.out.println(cabServer + "Falha ao gerar arquivo de log");
+				System.out.println(cabServer + getDate() + "Falha ao gerar arquivo de log");
 				e.printStackTrace();
 			}
 		}
 
 		public void infoClient(Object obj) {
-			System.out.println(cabClient + obj.toString());
+			System.out.println(cabClient + getDate() + obj.toString());
 			try {
-				buffWrite.append(cabClient + obj.toString());
+				buffWrite.append(cabClient + getDate() + obj.toString());
 				buffWrite.append("\n");
 				buffWrite.flush();
 			} catch (IOException e) {
-				System.out.println(cabClient + "Falha ao gerar arquivo de log");
+				System.out.println(cabClient + getDate() + "Falha ao gerar arquivo de log");
 				e.printStackTrace();
 			}
+		}
+		
+		private String getDate() {
+			return  "["+new SimpleDateFormat("dd/MM/YYYY HH:mm:ss").format(System.currentTimeMillis())+"] ";
 		}
 	}
 }

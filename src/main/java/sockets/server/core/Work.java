@@ -30,22 +30,13 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Structs are the basic complex data structures. They are comprised of fields
- * which each have an integer identifier, a type, a symbolic name, and an
- * optional default value.
- * 
- * Fields can be declared "optional", which ensures they will not be included
- * in the serialized output if they aren't set.  Note that this requires some
- * manual management in some languages.
- */
 public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Work");
 
-  private static final org.apache.thrift.protocol.TField NUM1_FIELD_DESC = new org.apache.thrift.protocol.TField("num1", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField NUM2_FIELD_DESC = new org.apache.thrift.protocol.TField("num2", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField CONTEUDO_LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("conteudo_length", org.apache.thrift.protocol.TType.I32, (short)2);
   private static final org.apache.thrift.protocol.TField OP_FIELD_DESC = new org.apache.thrift.protocol.TField("op", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField COMMENT_FIELD_DESC = new org.apache.thrift.protocol.TField("comment", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField CONTEUDO_FIELD_DESC = new org.apache.thrift.protocol.TField("conteudo", org.apache.thrift.protocol.TType.STRING, (short)4);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -53,25 +44,25 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     schemes.put(TupleScheme.class, new WorkTupleSchemeFactory());
   }
 
-  public int num1; // required
-  public int num2; // required
+  public String path; // required
+  public int conteudo_length; // required
   /**
    * 
    * @see Operation
    */
   public Operation op; // required
-  public String comment; // optional
+  public ByteBuffer conteudo; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    NUM1((short)1, "num1"),
-    NUM2((short)2, "num2"),
+    PATH((short)1, "path"),
+    CONTEUDO_LENGTH((short)2, "conteudo_length"),
     /**
      * 
      * @see Operation
      */
     OP((short)3, "op"),
-    COMMENT((short)4, "comment");
+    CONTEUDO((short)4, "conteudo");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -86,14 +77,14 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // NUM1
-          return NUM1;
-        case 2: // NUM2
-          return NUM2;
+        case 1: // PATH
+          return PATH;
+        case 2: // CONTEUDO_LENGTH
+          return CONTEUDO_LENGTH;
         case 3: // OP
           return OP;
-        case 4: // COMMENT
-          return COMMENT;
+        case 4: // CONTEUDO
+          return CONTEUDO;
         default:
           return null;
       }
@@ -134,40 +125,36 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
   }
 
   // isset id assignments
-  private static final int __NUM1_ISSET_ID = 0;
-  private static final int __NUM2_ISSET_ID = 1;
+  private static final int __CONTEUDO_LENGTH_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  private _Fields optionals[] = {_Fields.COMMENT};
+  private _Fields optionals[] = {_Fields.CONTEUDO};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NUM1, new org.apache.thrift.meta_data.FieldMetaData("num1", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.NUM2, new org.apache.thrift.meta_data.FieldMetaData("num2", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.CONTEUDO_LENGTH, new org.apache.thrift.meta_data.FieldMetaData("conteudo_length", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.OP, new org.apache.thrift.meta_data.FieldMetaData("op", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, Operation.class)));
-    tmpMap.put(_Fields.COMMENT, new org.apache.thrift.meta_data.FieldMetaData("comment", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.CONTEUDO, new org.apache.thrift.meta_data.FieldMetaData("conteudo", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Work.class, metaDataMap);
   }
 
   public Work() {
-    this.num1 = 0;
-
   }
 
   public Work(
-    int num1,
-    int num2,
+    String path,
+    int conteudo_length,
     Operation op)
   {
     this();
-    this.num1 = num1;
-    setNum1IsSet(true);
-    this.num2 = num2;
-    setNum2IsSet(true);
+    this.path = path;
+    this.conteudo_length = conteudo_length;
+    setConteudo_lengthIsSet(true);
     this.op = op;
   }
 
@@ -176,13 +163,16 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
    */
   public Work(Work other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.num1 = other.num1;
-    this.num2 = other.num2;
+    if (other.isSetPath()) {
+      this.path = other.path;
+    }
+    this.conteudo_length = other.conteudo_length;
     if (other.isSetOp()) {
       this.op = other.op;
     }
-    if (other.isSetComment()) {
-      this.comment = other.comment;
+    if (other.isSetConteudo()) {
+      this.conteudo = org.apache.thrift.TBaseHelper.copyBinary(other.conteudo);
+;
     }
   }
 
@@ -192,58 +182,58 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
 
  
   public void clear() {
-    this.num1 = 0;
-
-    setNum2IsSet(false);
-    this.num2 = 0;
+    this.path = null;
+    setConteudo_lengthIsSet(false);
+    this.conteudo_length = 0;
     this.op = null;
-    this.comment = null;
+    this.conteudo = null;
   }
 
-  public int getNum1() {
-    return this.num1;
+  public String getPath() {
+    return this.path;
   }
 
-  public Work setNum1(int num1) {
-    this.num1 = num1;
-    setNum1IsSet(true);
+  public Work setPath(String path) {
+    this.path = path;
     return this;
   }
 
-  public void unsetNum1() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __NUM1_ISSET_ID);
+  public void unsetPath() {
+    this.path = null;
   }
 
-  /** Returns true if field num1 is set (has been assigned a value) and false otherwise */
-  public boolean isSetNum1() {
-    return EncodingUtils.testBit(__isset_bitfield, __NUM1_ISSET_ID);
+  /** Returns true if field path is set (has been assigned a value) and false otherwise */
+  public boolean isSetPath() {
+    return this.path != null;
   }
 
-  public void setNum1IsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NUM1_ISSET_ID, value);
+  public void setPathIsSet(boolean value) {
+    if (!value) {
+      this.path = null;
+    }
   }
 
-  public int getNum2() {
-    return this.num2;
+  public int getConteudo_length() {
+    return this.conteudo_length;
   }
 
-  public Work setNum2(int num2) {
-    this.num2 = num2;
-    setNum2IsSet(true);
+  public Work setConteudo_length(int conteudo_length) {
+    this.conteudo_length = conteudo_length;
+    setConteudo_lengthIsSet(true);
     return this;
   }
 
-  public void unsetNum2() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __NUM2_ISSET_ID);
+  public void unsetConteudo_length() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CONTEUDO_LENGTH_ISSET_ID);
   }
 
-  /** Returns true if field num2 is set (has been assigned a value) and false otherwise */
-  public boolean isSetNum2() {
-    return EncodingUtils.testBit(__isset_bitfield, __NUM2_ISSET_ID);
+  /** Returns true if field conteudo_length is set (has been assigned a value) and false otherwise */
+  public boolean isSetConteudo_length() {
+    return EncodingUtils.testBit(__isset_bitfield, __CONTEUDO_LENGTH_ISSET_ID);
   }
 
-  public void setNum2IsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NUM2_ISSET_ID, value);
+  public void setConteudo_lengthIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CONTEUDO_LENGTH_ISSET_ID, value);
   }
 
   /**
@@ -278,45 +268,55 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     }
   }
 
-  public String getComment() {
-    return this.comment;
+  public byte[] getConteudo() {
+    setConteudo(org.apache.thrift.TBaseHelper.rightSize(conteudo));
+    return conteudo == null ? null : conteudo.array();
   }
 
-  public Work setComment(String comment) {
-    this.comment = comment;
+  public ByteBuffer bufferForConteudo() {
+    return conteudo;
+  }
+
+  public Work setConteudo(byte[] conteudo) {
+    setConteudo(conteudo == null ? (ByteBuffer)null : ByteBuffer.wrap(conteudo));
     return this;
   }
 
-  public void unsetComment() {
-    this.comment = null;
+  public Work setConteudo(ByteBuffer conteudo) {
+    this.conteudo = conteudo;
+    return this;
   }
 
-  /** Returns true if field comment is set (has been assigned a value) and false otherwise */
-  public boolean isSetComment() {
-    return this.comment != null;
+  public void unsetConteudo() {
+    this.conteudo = null;
   }
 
-  public void setCommentIsSet(boolean value) {
+  /** Returns true if field conteudo is set (has been assigned a value) and false otherwise */
+  public boolean isSetConteudo() {
+    return this.conteudo != null;
+  }
+
+  public void setConteudoIsSet(boolean value) {
     if (!value) {
-      this.comment = null;
+      this.conteudo = null;
     }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case NUM1:
+    case PATH:
       if (value == null) {
-        unsetNum1();
+        unsetPath();
       } else {
-        setNum1((Integer)value);
+        setPath((String)value);
       }
       break;
 
-    case NUM2:
+    case CONTEUDO_LENGTH:
       if (value == null) {
-        unsetNum2();
+        unsetConteudo_length();
       } else {
-        setNum2((Integer)value);
+        setConteudo_length((Integer)value);
       }
       break;
 
@@ -328,11 +328,11 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
       }
       break;
 
-    case COMMENT:
+    case CONTEUDO:
       if (value == null) {
-        unsetComment();
+        unsetConteudo();
       } else {
-        setComment((String)value);
+        setConteudo((ByteBuffer)value);
       }
       break;
 
@@ -341,17 +341,17 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case NUM1:
-      return Integer.valueOf(getNum1());
+    case PATH:
+      return getPath();
 
-    case NUM2:
-      return Integer.valueOf(getNum2());
+    case CONTEUDO_LENGTH:
+      return Integer.valueOf(getConteudo_length());
 
     case OP:
       return getOp();
 
-    case COMMENT:
-      return getComment();
+    case CONTEUDO:
+      return getConteudo();
 
     }
     throw new IllegalStateException();
@@ -364,14 +364,14 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     }
 
     switch (field) {
-    case NUM1:
-      return isSetNum1();
-    case NUM2:
-      return isSetNum2();
+    case PATH:
+      return isSetPath();
+    case CONTEUDO_LENGTH:
+      return isSetConteudo_length();
     case OP:
       return isSetOp();
-    case COMMENT:
-      return isSetComment();
+    case CONTEUDO:
+      return isSetConteudo();
     }
     throw new IllegalStateException();
   }
@@ -389,21 +389,21 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     if (that == null)
       return false;
 
-    boolean this_present_num1 = true;
-    boolean that_present_num1 = true;
-    if (this_present_num1 || that_present_num1) {
-      if (!(this_present_num1 && that_present_num1))
+    boolean this_present_path = true && this.isSetPath();
+    boolean that_present_path = true && that.isSetPath();
+    if (this_present_path || that_present_path) {
+      if (!(this_present_path && that_present_path))
         return false;
-      if (this.num1 != that.num1)
+      if (!this.path.equals(that.path))
         return false;
     }
 
-    boolean this_present_num2 = true;
-    boolean that_present_num2 = true;
-    if (this_present_num2 || that_present_num2) {
-      if (!(this_present_num2 && that_present_num2))
+    boolean this_present_conteudo_length = true;
+    boolean that_present_conteudo_length = true;
+    if (this_present_conteudo_length || that_present_conteudo_length) {
+      if (!(this_present_conteudo_length && that_present_conteudo_length))
         return false;
-      if (this.num2 != that.num2)
+      if (this.conteudo_length != that.conteudo_length)
         return false;
     }
 
@@ -416,12 +416,12 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
         return false;
     }
 
-    boolean this_present_comment = true && this.isSetComment();
-    boolean that_present_comment = true && that.isSetComment();
-    if (this_present_comment || that_present_comment) {
-      if (!(this_present_comment && that_present_comment))
+    boolean this_present_conteudo = true && this.isSetConteudo();
+    boolean that_present_conteudo = true && that.isSetConteudo();
+    if (this_present_conteudo || that_present_conteudo) {
+      if (!(this_present_conteudo && that_present_conteudo))
         return false;
-      if (!this.comment.equals(that.comment))
+      if (!this.conteudo.equals(that.conteudo))
         return false;
     }
 
@@ -441,22 +441,22 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     int lastComparison = 0;
     Work typedOther = (Work)other;
 
-    lastComparison = Boolean.valueOf(isSetNum1()).compareTo(typedOther.isSetNum1());
+    lastComparison = Boolean.valueOf(isSetPath()).compareTo(typedOther.isSetPath());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetNum1()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.num1, typedOther.num1);
+    if (isSetPath()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetNum2()).compareTo(typedOther.isSetNum2());
+    lastComparison = Boolean.valueOf(isSetConteudo_length()).compareTo(typedOther.isSetConteudo_length());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetNum2()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.num2, typedOther.num2);
+    if (isSetConteudo_length()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.conteudo_length, typedOther.conteudo_length);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -471,12 +471,12 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetComment()).compareTo(typedOther.isSetComment());
+    lastComparison = Boolean.valueOf(isSetConteudo()).compareTo(typedOther.isSetConteudo());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetComment()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.comment, typedOther.comment);
+    if (isSetConteudo()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.conteudo, typedOther.conteudo);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -501,12 +501,16 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     StringBuilder sb = new StringBuilder("Work(");
     boolean first = true;
 
-    sb.append("num1:");
-    sb.append(this.num1);
+    sb.append("path:");
+    if (this.path == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.path);
+    }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("num2:");
-    sb.append(this.num2);
+    sb.append("conteudo_length:");
+    sb.append(this.conteudo_length);
     first = false;
     if (!first) sb.append(", ");
     sb.append("op:");
@@ -516,13 +520,13 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
       sb.append(this.op);
     }
     first = false;
-    if (isSetComment()) {
+    if (isSetConteudo()) {
       if (!first) sb.append(", ");
-      sb.append("comment:");
-      if (this.comment == null) {
+      sb.append("conteudo:");
+      if (this.conteudo == null) {
         sb.append("null");
       } else {
-        sb.append(this.comment);
+        org.apache.thrift.TBaseHelper.toString(this.conteudo, sb);
       }
       first = false;
     }
@@ -571,18 +575,18 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
           break;
         }
         switch (schemeField.id) {
-          case 1: // NUM1
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.num1 = iprot.readI32();
-              struct.setNum1IsSet(true);
+          case 1: // PATH
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.path = iprot.readString();
+              struct.setPathIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // NUM2
+          case 2: // CONTEUDO_LENGTH
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.num2 = iprot.readI32();
-              struct.setNum2IsSet(true);
+              struct.conteudo_length = iprot.readI32();
+              struct.setConteudo_lengthIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -595,10 +599,10 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 4: // COMMENT
+          case 4: // CONTEUDO
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.comment = iprot.readString();
-              struct.setCommentIsSet(true);
+              struct.conteudo = iprot.readBinary();
+              struct.setConteudoIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -618,21 +622,23 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(NUM1_FIELD_DESC);
-      oprot.writeI32(struct.num1);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(NUM2_FIELD_DESC);
-      oprot.writeI32(struct.num2);
+      if (struct.path != null) {
+        oprot.writeFieldBegin(PATH_FIELD_DESC);
+        oprot.writeString(struct.path);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldBegin(CONTEUDO_LENGTH_FIELD_DESC);
+      oprot.writeI32(struct.conteudo_length);
       oprot.writeFieldEnd();
       if (struct.op != null) {
         oprot.writeFieldBegin(OP_FIELD_DESC);
         oprot.writeI32(struct.op.getValue());
         oprot.writeFieldEnd();
       }
-      if (struct.comment != null) {
-        if (struct.isSetComment()) {
-          oprot.writeFieldBegin(COMMENT_FIELD_DESC);
-          oprot.writeString(struct.comment);
+      if (struct.conteudo != null) {
+        if (struct.isSetConteudo()) {
+          oprot.writeFieldBegin(CONTEUDO_FIELD_DESC);
+          oprot.writeBinary(struct.conteudo);
           oprot.writeFieldEnd();
         }
       }
@@ -654,30 +660,30 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
     public void write(org.apache.thrift.protocol.TProtocol prot, Work struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetNum1()) {
+      if (struct.isSetPath()) {
         optionals.set(0);
       }
-      if (struct.isSetNum2()) {
+      if (struct.isSetConteudo_length()) {
         optionals.set(1);
       }
       if (struct.isSetOp()) {
         optionals.set(2);
       }
-      if (struct.isSetComment()) {
+      if (struct.isSetConteudo()) {
         optionals.set(3);
       }
       oprot.writeBitSet(optionals, 4);
-      if (struct.isSetNum1()) {
-        oprot.writeI32(struct.num1);
+      if (struct.isSetPath()) {
+        oprot.writeString(struct.path);
       }
-      if (struct.isSetNum2()) {
-        oprot.writeI32(struct.num2);
+      if (struct.isSetConteudo_length()) {
+        oprot.writeI32(struct.conteudo_length);
       }
       if (struct.isSetOp()) {
         oprot.writeI32(struct.op.getValue());
       }
-      if (struct.isSetComment()) {
-        oprot.writeString(struct.comment);
+      if (struct.isSetConteudo()) {
+        oprot.writeBinary(struct.conteudo);
       }
     }
 
@@ -686,20 +692,20 @@ public class Work implements org.apache.thrift.TBase<Work, Work._Fields>, java.i
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(4);
       if (incoming.get(0)) {
-        struct.num1 = iprot.readI32();
-        struct.setNum1IsSet(true);
+        struct.path = iprot.readString();
+        struct.setPathIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.num2 = iprot.readI32();
-        struct.setNum2IsSet(true);
+        struct.conteudo_length = iprot.readI32();
+        struct.setConteudo_lengthIsSet(true);
       }
       if (incoming.get(2)) {
         struct.op = Operation.findByValue(iprot.readI32());
         struct.setOpIsSet(true);
       }
       if (incoming.get(3)) {
-        struct.comment = iprot.readString();
-        struct.setCommentIsSet(true);
+        struct.conteudo = iprot.readBinary();
+        struct.setConteudoIsSet(true);
       }
     }
   }

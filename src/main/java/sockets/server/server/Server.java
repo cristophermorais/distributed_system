@@ -1,4 +1,4 @@
-package distributed_filesystem.server.server;
+package sockets.server.server;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
@@ -6,7 +6,7 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
-import distributed_filesystem.server.core.Calculator;
+import sockets.server.core.Calculator;
 
 public class Server {
 

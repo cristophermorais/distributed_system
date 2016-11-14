@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-<<<<<<< HEAD
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -34,9 +33,4 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
-=======
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
->>>>>>> branch 'thriftRequests' of https://github.com/cristophermorais/distributed_system.git
 </classpath>

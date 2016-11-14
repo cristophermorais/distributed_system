@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package distributed_filesystem.server.core;
+package sockets.server.core;
 
 
 import java.util.Map;

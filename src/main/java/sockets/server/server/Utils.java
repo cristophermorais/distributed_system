@@ -1,4 +1,4 @@
-package distributed_filesystem.server.server;
+package sockets.server.server;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

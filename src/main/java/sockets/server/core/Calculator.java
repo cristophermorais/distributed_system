@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package distributed_filesystem.server.core;
+package sockets.server.core;
 
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
@@ -36,7 +36,7 @@ public class Calculator {
    * Ahh, now onto the cool part, defining a service. Services just need a name
    * and can optionally inherit from another service using the extends keyword.
    */
-  public interface Iface extends distributed_filesystem.server.shared.SharedService.Iface {
+  public interface Iface extends sockets.server.shared.SharedService.Iface {
 
     /**
      * A method definition looks like C code. It has a return type, arguments,
@@ -59,7 +59,7 @@ public class Calculator {
 
   }
 
-  public interface AsyncIface extends distributed_filesystem.server.shared.SharedService.AsyncIface {
+  public interface AsyncIface extends sockets.server.shared.SharedService.AsyncIface {
 
     public void ping(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.ping_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -71,7 +71,7 @@ public class Calculator {
 
   }
 
-  public static class Client extends distributed_filesystem.server.shared.SharedService.Client implements Iface {
+  public static class Client extends sockets.server.shared.SharedService.Client implements Iface {
     public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
       public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
@@ -173,7 +173,7 @@ public class Calculator {
     }
 
   }
-  public static class AsyncClient extends distributed_filesystem.server.shared.SharedService.AsyncClient implements AsyncIface {
+  public static class AsyncClient extends sockets.server.shared.SharedService.AsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
       private org.apache.thrift.async.TAsyncClientManager clientManager;
       private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
@@ -319,7 +319,7 @@ public class Calculator {
 
   }
 
-  public static class Processor<I extends Iface> extends distributed_filesystem.server.shared.SharedService.Processor<I> implements org.apache.thrift.TProcessor {
+  public static class Processor<I extends Iface> extends sockets.server.shared.SharedService.Processor<I> implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(I iface) {
       super(iface, getProcessMap(new HashMap<String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>>()));

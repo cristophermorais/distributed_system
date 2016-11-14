@@ -1,11 +1,11 @@
-package distributed_filesystem.server.server;
+package sockets.server.server;
 
 import java.util.HashMap;
 
-import distributed_filesystem.server.core.Calculator;
-import distributed_filesystem.server.core.InvalidOperation;
-import distributed_filesystem.server.core.Work;
-import distributed_filesystem.server.shared.SharedStruct;
+import sockets.server.core.Calculator;
+import sockets.server.core.InvalidOperation;
+import sockets.server.core.Work;
+import sockets.server.shared.SharedStruct;
 
 public class CalculatorHandler implements Calculator.Iface {
 

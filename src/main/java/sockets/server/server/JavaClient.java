@@ -1,4 +1,4 @@
-package distributed_filesystem.server.server;
+package sockets.server.server;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -6,11 +6,11 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
-import distributed_filesystem.server.core.Calculator;
-import distributed_filesystem.server.core.InvalidOperation;
-import distributed_filesystem.server.core.Operation;
-import distributed_filesystem.server.core.Work;
-import distributed_filesystem.server.shared.SharedStruct;
+import sockets.server.core.Calculator;
+import sockets.server.core.InvalidOperation;
+import sockets.server.core.Operation;
+import sockets.server.core.Work;
+import sockets.server.shared.SharedStruct;
 
 public class JavaClient {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package distributed_filesystem.server.server;
+package sockets.server.server;
 
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -6,7 +6,7 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
-import distributed_filesystem.server.core.Calculator;
+import sockets.server.core.Calculator;
 
 public class InternalProcessor implements Runnable {
 	private int port;

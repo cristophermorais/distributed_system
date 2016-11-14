@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="create_run_jar" name="Create Runnable Jar for Project SocketsServer1.3">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
@@ -22,3 +23,20 @@
         </jar>
     </target>
 </project>
+=======
+<project name="SocketsServer1.2" default="empacotar">
+	<target name="compilar">
+		<delete dir="bin" />
+		<mkdir dir="bin" />
+		<javac srcdir="src/br/com/cristopher/sockets" destdir="bin">
+		</javac>
+	</target>
+	<target name="empacotar" depends="compilar">
+		<jar destfile="Server.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="br.com.cristopher.sockets.server.Server" />
+			</manifest>
+		</jar>
+	</target>
+</project>
+>>>>>>> branch 'thriftRequests' of https://github.com/cristophermorais/distributed_system.git

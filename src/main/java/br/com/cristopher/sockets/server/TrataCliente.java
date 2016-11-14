@@ -1,35 +1,27 @@
 package br.com.cristopher.sockets.server;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Date;
 
 import br.com.cristopher.sockets.data.Node;
 import br.com.cristopher.sockets.data.NodeDao;
 import br.com.cristopher.sockets.data.Request;
 import br.com.cristopher.sockets.response.HttpResponse;
 import br.com.cristopher.sockets.utils.Logger;
+import sockets.server.core.Retorno;
 
-public class TrataCliente implements Runnable {
-	private Socket cliente;
-	DataOutputStream output = null;
+public class TrataCliente {
 	Request req;
 	Node node;
 
 	private Logger log = new Logger(true);
 
-	public TrataCliente(Socket client) throws IOException {
-		log.infoLog("Recebendo conexão de "+client.getInetAddress().getHostAddress()+" as "+new Date());
-		this.cliente = client;
-		output = new DataOutputStream(cliente.getOutputStream());
-		req = HttpTranslator.translate(cliente.getInputStream());
-		(new Thread(this)).start();
+	public TrataCliente(String request, ByteBuffer content) {
+		req = HttpTranslator.translate(request, content);
 	}
 
-	@Override
-	public void run() {
+	public Retorno run() {
 		try {
 			
 			node = NodeDao.get(req.getPath());
@@ -37,119 +29,123 @@ public class TrataCliente implements Runnable {
 			switch (req.getType()) {
 
 			case "GET":
-				trataGet();
-				break;
-
+				return trataGet();
 			case "POST":
-				trataPost();				
-				break;
-
+				return trataPost();
 			case "PUT":
-				trataPut();
-				break;
+				return trataPut();
 			case "DELETE":
-				trataDelete();
-				break;
+				return trataDelete();
 			case "HEAD":
-				trataHead();
-				break;
-			default:
-				break;
+				return trataHead();
 			}
-			
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			
-			try {
-				cliente.close();
-				log.separatorLog();
-			} catch (IOException e) {
-				log.errorLog("Falha ao fechar socket de "+cliente.getInetAddress().getHostAddress()+": "+e.getMessage());
-				log.separatorLog();
-			}
 		}
+		return null;
 	}
 	
-	private synchronized void trataGet() throws IOException {
+	private synchronized Retorno trataGet() throws IOException {
+		Retorno retorno = new Retorno();
 		log.infoLog("Tratando requisição GET: "+Arrays.toString(this.req.getPath()));
-		if (node == null) HttpResponse.send404(output);
+		if (node == null)
+			retorno.setStatus(HttpResponse.send404());
 		else {
 			if (node.getConteudo() == null)
-				HttpResponse.send204(output, node);
+				retorno.setStatus(HttpResponse.send204(node));
 			else {
-				HttpResponse.send200(output);
-				HttpResponse.sendDefault(output, node);
-				HttpResponse.sendContent(output, node.getConteudo());
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
+				retorno.setConteudo(node.getConteudo());
 			}
 		}
+		return retorno;
 	}
 	
-	private synchronized void trataPost() throws IOException {
+	private synchronized Retorno trataPost() throws IOException {
+		Retorno retorno = new Retorno();
 		log.infoLog("Tratando requisição POST: "+Arrays.toString(this.req.getPath()));
 		if (node == null) {
 			node = NodeDao.post(req);
 
 			if (node != null) {
-				HttpResponse.send200(output);
-				HttpResponse.sendDefault(output, node);
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
 			} else {
-				HttpResponse.send500(output);
+				retorno.setStatus(HttpResponse.send500());
 			}
 
 		} else {
-			HttpResponse.send500(output);
+			retorno.setStatus(HttpResponse.send500());
 		}
+		return retorno;
 	}
 	
-	private synchronized void trataPut() throws IOException {
+	private synchronized Retorno trataPut() throws IOException {
+		Retorno retorno = new Retorno();
 		log.infoLog("Tratando requisição PUT: "+Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			node = NodeDao.put(req);
 
 			if (node != null) {
-				HttpResponse.send200(output);
-				HttpResponse.sendDefault(output, node);
-				;
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
 			} else {
-				HttpResponse.send500(output);
+				retorno.setStatus(HttpResponse.send500());
 			}
 
 		} else {
-			HttpResponse.send404(output);
+			retorno.setStatus(HttpResponse.send500());
 		}
+		return retorno;
 	}
 	
-	private synchronized void trataDelete() throws IOException {
+	private synchronized Retorno trataDelete() throws IOException {
+		Retorno retorno = new Retorno();
 		log.infoLog("Tratando requisição DELETE: "+Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			boolean ok = NodeDao.delete(req);
 
 			if (ok) {
-				HttpResponse.send200(output);
-				HttpResponse.sendDefault(output, node);
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
 			} else {
-				HttpResponse.send500(output);
+				retorno.setStatus(HttpResponse.send500());
 			}
 
 		} else {
-			HttpResponse.send404(output);
+			retorno.setStatus(HttpResponse.send500());
 		}
-
+		return retorno;
 	}
 	
-	private synchronized void trataHead() throws IOException {
+	private synchronized Retorno trataHead() throws IOException {
+		Retorno retorno = new Retorno();
 		if (node != null) {
 			if (node.getConteudo() != null) {
-				HttpResponse.send200(output);
-				HttpResponse.sendDefault(output, node);
-				output.writeBytes("Content-length: " + node.getConteudo().length + "\r\n");
-				output.writeBytes("\r\n");
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
+				retorno.setContent_length(node.getContentLength());
 			} else {
-				HttpResponse.send204(output, node);
+				retorno.setStatus(HttpResponse.send204(node));
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
+				retorno.setContent_length(0);
 			}
 		} else {
-			HttpResponse.send404(output);
+			retorno.setStatus(HttpResponse.send404());
 		}
+		return retorno;
 	}
 }

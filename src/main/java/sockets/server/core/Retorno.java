@@ -33,11 +33,12 @@ import org.slf4j.LoggerFactory;
 public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Retorno");
 
-  private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField VERSAO_FIELD_DESC = new org.apache.thrift.protocol.TField("versao", org.apache.thrift.protocol.TType.I64, (short)2);
   private static final org.apache.thrift.protocol.TField CRIADO_FIELD_DESC = new org.apache.thrift.protocol.TField("criado", org.apache.thrift.protocol.TType.I64, (short)3);
   private static final org.apache.thrift.protocol.TField MODIFICADO_FIELD_DESC = new org.apache.thrift.protocol.TField("modificado", org.apache.thrift.protocol.TType.I64, (short)4);
-  private static final org.apache.thrift.protocol.TField CONTEUDO_FIELD_DESC = new org.apache.thrift.protocol.TField("conteudo", org.apache.thrift.protocol.TType.STRING, (short)5);
+  private static final org.apache.thrift.protocol.TField CONTENT_LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("content_length", org.apache.thrift.protocol.TType.I64, (short)5);
+  private static final org.apache.thrift.protocol.TField CONTEUDO_FIELD_DESC = new org.apache.thrift.protocol.TField("conteudo", org.apache.thrift.protocol.TType.STRING, (short)6);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -45,27 +46,21 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     schemes.put(TupleScheme.class, new RetornoTupleSchemeFactory());
   }
 
-  /**
-   * 
-   * @see RetornoStatus
-   */
-  public RetornoStatus status; // required
+  public String status; // required
   public long versao; // required
   public long criado; // required
   public long modificado; // required
+  public long content_length; // required
   public ByteBuffer conteudo; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    /**
-     * 
-     * @see RetornoStatus
-     */
     STATUS((short)1, "status"),
     VERSAO((short)2, "versao"),
     CRIADO((short)3, "criado"),
     MODIFICADO((short)4, "modificado"),
-    CONTEUDO((short)5, "conteudo");
+    CONTENT_LENGTH((short)5, "content_length"),
+    CONTEUDO((short)6, "conteudo");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -88,7 +83,9 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
           return CRIADO;
         case 4: // MODIFICADO
           return MODIFICADO;
-        case 5: // CONTEUDO
+        case 5: // CONTENT_LENGTH
+          return CONTENT_LENGTH;
+        case 6: // CONTEUDO
           return CONTEUDO;
         default:
           return null;
@@ -133,18 +130,21 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
   private static final int __VERSAO_ISSET_ID = 0;
   private static final int __CRIADO_ISSET_ID = 1;
   private static final int __MODIFICADO_ISSET_ID = 2;
+  private static final int __CONTENT_LENGTH_ISSET_ID = 3;
   private byte __isset_bitfield = 0;
   private _Fields optionals[] = {_Fields.CONTEUDO};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.STATUS, new org.apache.thrift.meta_data.FieldMetaData("status", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, RetornoStatus.class)));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.VERSAO, new org.apache.thrift.meta_data.FieldMetaData("versao", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     tmpMap.put(_Fields.CRIADO, new org.apache.thrift.meta_data.FieldMetaData("criado", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     tmpMap.put(_Fields.MODIFICADO, new org.apache.thrift.meta_data.FieldMetaData("modificado", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.CONTENT_LENGTH, new org.apache.thrift.meta_data.FieldMetaData("content_length", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     tmpMap.put(_Fields.CONTEUDO, new org.apache.thrift.meta_data.FieldMetaData("conteudo", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
@@ -156,10 +156,11 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
   }
 
   public Retorno(
-    RetornoStatus status,
+    String status,
     long versao,
     long criado,
-    long modificado)
+    long modificado,
+    long content_length)
   {
     this();
     this.status = status;
@@ -169,6 +170,8 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     setCriadoIsSet(true);
     this.modificado = modificado;
     setModificadoIsSet(true);
+    this.content_length = content_length;
+    setContent_lengthIsSet(true);
   }
 
   /**
@@ -182,6 +185,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     this.versao = other.versao;
     this.criado = other.criado;
     this.modificado = other.modificado;
+    this.content_length = other.content_length;
     if (other.isSetConteudo()) {
       this.conteudo = org.apache.thrift.TBaseHelper.copyBinary(other.conteudo);
 ;
@@ -201,22 +205,16 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     this.criado = 0;
     setModificadoIsSet(false);
     this.modificado = 0;
+    setContent_lengthIsSet(false);
+    this.content_length = 0;
     this.conteudo = null;
   }
 
-  /**
-   * 
-   * @see RetornoStatus
-   */
-  public RetornoStatus getStatus() {
+  public String getStatus() {
     return this.status;
   }
 
-  /**
-   * 
-   * @see RetornoStatus
-   */
-  public Retorno setStatus(RetornoStatus status) {
+  public Retorno setStatus(String status) {
     this.status = status;
     return this;
   }
@@ -305,6 +303,29 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MODIFICADO_ISSET_ID, value);
   }
 
+  public long getContent_length() {
+    return this.content_length;
+  }
+
+  public Retorno setContent_length(long content_length) {
+    this.content_length = content_length;
+    setContent_lengthIsSet(true);
+    return this;
+  }
+
+  public void unsetContent_length() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CONTENT_LENGTH_ISSET_ID);
+  }
+
+  /** Returns true if field content_length is set (has been assigned a value) and false otherwise */
+  public boolean isSetContent_length() {
+    return EncodingUtils.testBit(__isset_bitfield, __CONTENT_LENGTH_ISSET_ID);
+  }
+
+  public void setContent_lengthIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CONTENT_LENGTH_ISSET_ID, value);
+  }
+
   public byte[] getConteudo() {
     setConteudo(org.apache.thrift.TBaseHelper.rightSize(conteudo));
     return conteudo == null ? null : conteudo.array();
@@ -345,7 +366,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       if (value == null) {
         unsetStatus();
       } else {
-        setStatus((RetornoStatus)value);
+        setStatus((String)value);
       }
       break;
 
@@ -370,6 +391,14 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
         unsetModificado();
       } else {
         setModificado((Long)value);
+      }
+      break;
+
+    case CONTENT_LENGTH:
+      if (value == null) {
+        unsetContent_length();
+      } else {
+        setContent_length((Long)value);
       }
       break;
 
@@ -398,6 +427,9 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     case MODIFICADO:
       return Long.valueOf(getModificado());
 
+    case CONTENT_LENGTH:
+      return Long.valueOf(getContent_length());
+
     case CONTEUDO:
       return getConteudo();
 
@@ -420,6 +452,8 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       return isSetCriado();
     case MODIFICADO:
       return isSetModificado();
+    case CONTENT_LENGTH:
+      return isSetContent_length();
     case CONTEUDO:
       return isSetConteudo();
     }
@@ -472,6 +506,15 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       if (!(this_present_modificado && that_present_modificado))
         return false;
       if (this.modificado != that.modificado)
+        return false;
+    }
+
+    boolean this_present_content_length = true;
+    boolean that_present_content_length = true;
+    if (this_present_content_length || that_present_content_length) {
+      if (!(this_present_content_length && that_present_content_length))
+        return false;
+      if (this.content_length != that.content_length)
         return false;
     }
 
@@ -540,6 +583,16 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetContent_length()).compareTo(typedOther.isSetContent_length());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetContent_length()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.content_length, typedOther.content_length);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = Boolean.valueOf(isSetConteudo()).compareTo(typedOther.isSetConteudo());
     if (lastComparison != 0) {
       return lastComparison;
@@ -588,6 +641,10 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     if (!first) sb.append(", ");
     sb.append("modificado:");
     sb.append(this.modificado);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("content_length:");
+    sb.append(this.content_length);
     first = false;
     if (isSetConteudo()) {
       if (!first) sb.append(", ");
@@ -645,8 +702,8 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
         }
         switch (schemeField.id) {
           case 1: // STATUS
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.status = RetornoStatus.findByValue(iprot.readI32());
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.status = iprot.readString();
               struct.setStatusIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -676,7 +733,15 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 5: // CONTEUDO
+          case 5: // CONTENT_LENGTH
+            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+              struct.content_length = iprot.readI64();
+              struct.setContent_lengthIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 6: // CONTEUDO
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.conteudo = iprot.readBinary();
               struct.setConteudoIsSet(true);
@@ -701,7 +766,7 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       oprot.writeStructBegin(STRUCT_DESC);
       if (struct.status != null) {
         oprot.writeFieldBegin(STATUS_FIELD_DESC);
-        oprot.writeI32(struct.status.getValue());
+        oprot.writeString(struct.status);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(VERSAO_FIELD_DESC);
@@ -712,6 +777,9 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       oprot.writeFieldEnd();
       oprot.writeFieldBegin(MODIFICADO_FIELD_DESC);
       oprot.writeI64(struct.modificado);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(CONTENT_LENGTH_FIELD_DESC);
+      oprot.writeI64(struct.content_length);
       oprot.writeFieldEnd();
       if (struct.conteudo != null) {
         if (struct.isSetConteudo()) {
@@ -750,12 +818,15 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       if (struct.isSetModificado()) {
         optionals.set(3);
       }
-      if (struct.isSetConteudo()) {
+      if (struct.isSetContent_length()) {
         optionals.set(4);
       }
-      oprot.writeBitSet(optionals, 5);
+      if (struct.isSetConteudo()) {
+        optionals.set(5);
+      }
+      oprot.writeBitSet(optionals, 6);
       if (struct.isSetStatus()) {
-        oprot.writeI32(struct.status.getValue());
+        oprot.writeString(struct.status);
       }
       if (struct.isSetVersao()) {
         oprot.writeI64(struct.versao);
@@ -766,6 +837,9 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       if (struct.isSetModificado()) {
         oprot.writeI64(struct.modificado);
       }
+      if (struct.isSetContent_length()) {
+        oprot.writeI64(struct.content_length);
+      }
       if (struct.isSetConteudo()) {
         oprot.writeBinary(struct.conteudo);
       }
@@ -774,9 +848,9 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Retorno struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(5);
+      BitSet incoming = iprot.readBitSet(6);
       if (incoming.get(0)) {
-        struct.status = RetornoStatus.findByValue(iprot.readI32());
+        struct.status = iprot.readString();
         struct.setStatusIsSet(true);
       }
       if (incoming.get(1)) {
@@ -792,6 +866,10 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
         struct.setModificadoIsSet(true);
       }
       if (incoming.get(4)) {
+        struct.content_length = iprot.readI64();
+        struct.setContent_lengthIsSet(true);
+      }
+      if (incoming.get(5)) {
         struct.conteudo = iprot.readBinary();
         struct.setConteudoIsSet(true);
       }

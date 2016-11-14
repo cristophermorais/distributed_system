@@ -1,6 +1,5 @@
 package sockets.server.server;
 
-import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -11,7 +10,7 @@ import sockets.server.core.RequestProcessor;
 public class Server {
 
 	public static RequestProcessorHandler handler;
-	public static RequestProcessor.Processor processor;
+	public static RequestProcessor.Processor<RequestProcessorHandler> processor;
 	public static int port;
 	public static Utils.Logger log;
 
@@ -37,7 +36,7 @@ public class Server {
 		}
 		try {
 			handler = new RequestProcessorHandler();
-			processor = new RequestProcessor.Processor(handler);
+			processor = new RequestProcessor.Processor<RequestProcessorHandler>(handler);
 
 			Runnable simple = new Runnable() {
 				public void run() {
@@ -55,7 +54,7 @@ public class Server {
 		}
 	}
 
-	public static void simple(RequestProcessor.Processor processor, Integer port) {
+	public static void simple(RequestProcessor.Processor<RequestProcessorHandler> processor, Integer port) {
 		try {
 			TServerTransport serverTransport = new TServerSocket(port);
 			TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));

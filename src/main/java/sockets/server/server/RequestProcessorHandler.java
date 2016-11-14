@@ -6,6 +6,7 @@ import org.apache.thrift.TException;
 
 import sockets.server.core.RequestProcessor;
 import sockets.server.core.Retorno;
+import sockets.server.core.RetornoStatus;
 import sockets.server.core.SharedStruct;
 
 public class RequestProcessorHandler implements RequestProcessor.Iface {
@@ -35,8 +36,12 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 	}
 
 	public Retorno request(String request) throws TException {
-		// TODO Auto-generated method stub
-		return null;
+		Retorno r = new Retorno();
+		r.setStatus(RetornoStatus.OK);
+		r.setCriado(System.currentTimeMillis());
+		r.setModificado(System.currentTimeMillis());
+		r.setVersao(1);
+		return r;
 	}
 
 }

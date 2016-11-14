@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Vector;
 
 public class Node {
-	private final Date criado; 
+	private final Date criado;
 	private final String path;
 	private Node pai = null;
 	private Date modificado;

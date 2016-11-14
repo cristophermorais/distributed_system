@@ -1,0 +1,15 @@
+<project name="SocketsServer1.2" default="empacotar">
+	<target name="compilar">
+		<delete dir="bin" />
+		<mkdir dir="bin" />
+		<javac srcdir="src/br/com/cristopher/sockets" destdir="bin">
+		</javac>
+	</target>
+	<target name="empacotar" depends="compilar">
+		<jar destfile="Server.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="br.com.cristopher.sockets.server.Server" />
+			</manifest>
+		</jar>
+	</target>
+</project>

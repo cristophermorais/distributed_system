@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project SocketsServer1.3">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="/home/cristopher/"/>
+    <property name="dir.workspace" value="${dir.buildfile}/workspaces/neon"/>
+    <property name="dir.jarfile" value="${dir.buildfile}/Desktop"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/Server.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="SocketsServer1.3.server.server.Server"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.workspace}/SocketsServer1.3/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/org/apache/thrift/libthrift/0.9.3/libthrift-0.9.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/org/slf4j/slf4j-api/1.7.12/slf4j-api-1.7.12.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/org/apache/httpcomponents/httpclient/4.4.1/httpclient-4.4.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/root/.m2/repository/org/apache/httpcomponents/httpcore/4.4.1/httpcore-4.4.1.jar"/>
+        </jar>
+    </target>
+</project>

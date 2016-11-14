@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import org.apache.thrift.TException;
 
-import sockets.server.core.InvalidOperation;
-import sockets.server.core.Work;
 import sockets.server.core.RequestProcessor;
 import sockets.server.core.Retorno;
 import sockets.server.core.SharedStruct;
@@ -36,7 +34,7 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 		Server.log.infoClient("zip()");
 	}
 
-	public Retorno calculate(int logid, Work w) throws InvalidOperation, TException {
+	public Retorno request(String request) throws TException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,7 +8,7 @@ import org.apache.thrift.transport.TServerTransport;
 
 import distributed_filesystem.server.core.Calculator;
 
-public class JavaServer {
+public class Server {
 
 	public static CalculatorHandler handler;
 	public static Calculator.Processor processor;
@@ -45,13 +45,13 @@ public class JavaServer {
 				}
 			};
 			new Thread(simple).start();
-			log.info("Esperando " + time + " segundos. Inicie os outros servidores");
+			log.infoServer("Esperando " + time + " segundos para iniciar ...");
 			Thread.sleep(time * 1000);
 			for (Integer i : servidores) {
 				new Thread(new InternalProcessor(i)).start();
 			}
 
-			log.info("Servidor Pronto ...");
+			log.infoServer("Servidor Pronto ...");
 		} catch (Exception x) {
 			x.printStackTrace();
 		}
@@ -61,7 +61,7 @@ public class JavaServer {
 		try {
 			TServerTransport serverTransport = new TServerSocket(port);
 			TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-			log.info("Iniciando Servidor...");
+			log.infoServer("Iniciando Servidor...");
 			server.serve();
 		} catch (Exception e) {
 			e.printStackTrace();

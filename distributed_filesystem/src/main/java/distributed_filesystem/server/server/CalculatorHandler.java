@@ -16,16 +16,16 @@ public class CalculatorHandler implements Calculator.Iface {
 	}
 
 	public void ping() {
-		System.out.println("ping()");
+		Server.log.infoClient("ping()");
 	}
 
 	public int add(int n1, int n2) {
-		System.out.println("add(" + n1 + "," + n2 + ")");
+		Server.log.infoClient("add(" + n1 + "," + n2 + ")");
 		return n1 + n2;
 	}
 
 	public int calculate(int logid, Work work) throws InvalidOperation {
-		System.out.println("calculate(" + logid + ", {" + work.op + "," + work.num1 + "," + work.num2 + "})");
+		Server.log.infoClient("calculate(" + logid + ", {" + work.op + "," + work.num1 + "," + work.num2 + "})");
 		int val = 0;
 		switch (work.op) {
 		case ADD:
@@ -62,12 +62,12 @@ public class CalculatorHandler implements Calculator.Iface {
 	}
 
 	public SharedStruct getStruct(int key) {
-		System.out.println("getStruct(" + key + ")");
+		Server.log.infoClient("getStruct(" + key + ")");
 		return log.get(key);
 	}
 
 	public void zip() {
-		System.out.println("zip()");
+		Server.log.infoClient("zip()");
 	}
 
 }

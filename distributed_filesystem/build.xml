@@ -9,7 +9,7 @@
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/Server.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="distributed_filesystem.server.server.JavaServer"/>
+                <attribute name="Main-Class" value="distributed_filesystem.server.server.Server"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${dir.workspace}/git/distributed_filesystem/target/classes"/>

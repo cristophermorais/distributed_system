@@ -27,7 +27,7 @@ public class InternalProcessor implements Runnable {
 			protocol = new TBinaryProtocol(transport);
 			client = new Calculator.Client(protocol);
 		} catch (TTransportException e) {
-			JavaServer.log.info("Falha ao criar conexão " + port);
+			Server.log.infoServer("Falha ao criar conexão " + port);
 			Thread.sleep(Utils.TIME_REQ_TRY);
 			Runnable r = new Runnable() {
 				public void run(){
@@ -46,19 +46,19 @@ public class InternalProcessor implements Runnable {
 		while (true) {
 			try {
 				client.ping();
-				JavaServer.log.info(client.add(1, 1));
-				JavaServer.log.info("Servidor conectado. Porta " + port);
+				Server.log.infoServer(client.add(1, 1));
+				Server.log.infoServer("Servidor conectado. Porta " + port);
 			} catch (Exception e) {
 				try {
 					iniciar();
 				} catch (Exception e1) {
-					JavaServer.log.info("Servidor Offline. Porta " + port);
+					Server.log.infoServer("Servidor Offline. Porta " + port);
 				}
 			} finally {
 				try {
 					Thread.sleep(Utils.TIME_REQ_TRY);
 				} catch (InterruptedException e) {
-					JavaServer.log.info("Falha. TInterruptedException na porta " + port);
+					Server.log.infoServer("Falha. TInterruptedException na porta " + port);
 				}
 			}
 

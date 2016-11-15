@@ -1,7 +1,5 @@
 package br.com.cristopher.sockets.server;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import br.com.cristopher.sockets.data.Node;
@@ -22,38 +20,49 @@ public class TrataCliente {
 	}
 
 	public Retorno run() {
-		try {
-			
-			node = NodeDao.get(req.getAbsolutePath());
-						
-			switch (req.getType()) {
 
-			case "GET":
-				return trataGet();
-			case "POST":
-				return trataPost();
-			case "PUT":
-				return trataPut();
-			case "DELETE":
-				return trataDelete();
-			case "HEAD":
-				return trataHead();
-			case "JUST_POST":
-				return trataJustPost();
-			case "JUST_DELETE":
-				return trataJustDelete();
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		node = NodeDao.get(req.getAbsolutePath());
+
+		switch (req.getType()) {
+
+		case "GET":
+			return trataGet();
+		case "POST":
+			return trataPost();
+		case "PUT":
+			return trataPut();
+		case "DELETE":
+			return trataDelete();
+		case "HEAD":
+			return trataHead();
+		case "JUST_POST":
+			return trataJustPost();
+		case "POST_CHILD":
+			return trataPostChild();
+
 		}
+
 		return null;
 	}
-	
-	private synchronized Retorno trataJustPost() throws IOException {
+
+	private synchronized Retorno trataPostChild() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisição JUST_POST: "+Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição POST_CHILD: " + Arrays.toString(this.req.getPath()));
+
+		if (node != null) {
+			NodeDao.addChild(req);
+			retorno.setStatus(HttpResponse.send200());
+		} else {
+			retorno.setStatus(HttpResponse.send500());
+		}
 		
+		return retorno;
+	}
+
+	private synchronized Retorno trataJustPost() {
+		Retorno retorno = new Retorno();
+		log.infoLog("Tratando requisição JUST_POST: " + Arrays.toString(this.req.getPath()));
+
 		if (node == null) {
 			node = NodeDao.justPost(req);
 
@@ -71,14 +80,10 @@ public class TrataCliente {
 		}
 		return retorno;
 	}
-	
-	private synchronized Retorno trataJustDelete(){
-		return null;
-	}
-	
-	private synchronized Retorno trataGet() throws IOException {
+
+	private synchronized Retorno trataGet() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisição GET: "+Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição GET: " + Arrays.toString(this.req.getPath()));
 		if (node == null)
 			retorno.setStatus(HttpResponse.send404());
 		else {
@@ -94,10 +99,10 @@ public class TrataCliente {
 		}
 		return retorno;
 	}
-	
-	private synchronized Retorno trataPost() throws IOException {
+
+	private synchronized Retorno trataPost() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisição POST: "+Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição POST: " + Arrays.toString(this.req.getPath()));
 		if (node == null) {
 			node = NodeDao.post(req);
 
@@ -115,10 +120,10 @@ public class TrataCliente {
 		}
 		return retorno;
 	}
-	
-	private synchronized Retorno trataPut() throws IOException {
+
+	private synchronized Retorno trataPut() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisição PUT: "+Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição PUT: " + Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			node = NodeDao.put(req);
 
@@ -136,10 +141,10 @@ public class TrataCliente {
 		}
 		return retorno;
 	}
-	
-	private synchronized Retorno trataDelete() throws IOException {
+
+	private synchronized Retorno trataDelete() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisição DELETE: "+Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição DELETE: " + Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			boolean ok = NodeDao.delete(req);
 
@@ -157,8 +162,8 @@ public class TrataCliente {
 		}
 		return retorno;
 	}
-	
-	private synchronized Retorno trataHead() throws IOException {
+
+	private synchronized Retorno trataHead() {
 		Retorno retorno = new Retorno();
 		if (node != null) {
 			if (node.getConteudo() != null) {

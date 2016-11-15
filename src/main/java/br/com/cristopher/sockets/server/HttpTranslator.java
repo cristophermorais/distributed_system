@@ -31,6 +31,10 @@ public class HttpTranslator {
 	
 						}
 					}
+					
+					if (aux[0].startsWith("Child-Path:")) {
+						req.setChildPath(aux[1]);
+					}
 				}
 			}
 		}
@@ -48,6 +52,7 @@ public class HttpTranslator {
 				log.errorLog(e.getMessage());
 			}
 		}
+		
 		return req;
 	}
 }

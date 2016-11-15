@@ -56,6 +56,10 @@ public class Server {
 			x.printStackTrace();
 		}
 	}
+	
+	public static int responseServer(String url){
+		return Math.abs(url.hashCode()) % servidores.length;
+	}
 
 	public static void simple(RequestProcessor.Processor<RequestProcessorHandler> processor, Integer port) {
 		try {

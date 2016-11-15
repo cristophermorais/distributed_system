@@ -1,5 +1,6 @@
 package br.com.cristopher.sockets.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
@@ -26,6 +27,11 @@ public class Node {
 		this.path = path;
 		this.filhos = new Vector<>();
 		this.conteudo = conteudo;
+	}
+	
+	public ArrayList<String> getListFilhos(){
+		ArrayList<String> lista = new ArrayList<>(this.filhos);
+		return lista;
 	}
 
 	public int getContentLength() {
@@ -69,7 +75,7 @@ public class Node {
 		return filhos;
 	}
 	
-	protected void add(Node node){
-		this.filhos.add(node.getPath());;
+	protected void add(String childPath){
+		this.filhos.add(childPath);;
 	}
 }

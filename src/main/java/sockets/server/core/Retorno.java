@@ -875,6 +875,12 @@ public class Retorno implements org.apache.thrift.TBase<Retorno, Retorno._Fields
       }
     }
   }
+  
+  public int getStatusCode(){
+	  String[] aux = status.split(" ");
+	  
+	  return Integer.parseInt(aux[1]);
+  }
 
 }
 

@@ -12,6 +12,6 @@ struct Retorno {
 }
 
 service RequestProcessor {
-   void ping(),
+   i32 ping(1:i32 port),
    Retorno request(1:string request, 2:binary content),
 }

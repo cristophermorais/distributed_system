@@ -1,6 +1,5 @@
 package br.com.cristopher.sockets.server;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
 

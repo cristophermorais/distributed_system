@@ -44,7 +44,7 @@ public class InternalProcessor implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				client.ping();
+				client.ping(Server.port);
 				Server.log.infoServer("Servidor conectado. Porta " + port);
 			} catch (Exception e) {
 				try {

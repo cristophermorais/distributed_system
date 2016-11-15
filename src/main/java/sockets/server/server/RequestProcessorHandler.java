@@ -8,8 +8,9 @@ import sockets.server.core.Retorno;
 
 public class RequestProcessorHandler implements RequestProcessor.Iface {
 
-	public void ping() {
-		Server.log.infoClient("Ping Recebido");
+	public int ping(int port) {
+		Server.log.infoClient("Ping Recebido de "+port);
+		return 3;
 	}
 
 	@Override

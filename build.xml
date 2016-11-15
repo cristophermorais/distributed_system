@@ -1,4 +1,4 @@
-<project default="create_run_jar" name="Create Runnable Jar for Project SocketsServer1.3">
+<project default="create_run_jar" name="SocketsServer1.3">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                         -->
     <!--define folder properties-->

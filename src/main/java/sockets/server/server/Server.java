@@ -13,6 +13,7 @@ public class Server {
 	public static RequestProcessor.Processor<RequestProcessorHandler> processor;
 	public static int port;
 	public static Utils.Logger log;
+	public static Integer[] servidores;
 
 	/**
 	 uso : java -jar Server.jar -p [PORTA] -t [DELAY DE INICIALIZAÇÃO] [PORTA DO OUTRO SERVER] [PORTA DO OUTRO SERVER]...
@@ -30,7 +31,7 @@ public class Server {
 		long time = Long.parseLong(args[3]);
 		port = Integer.parseInt(args[1]);
 		log = new Utils(). new Logger("log" + port);
-		Integer[] servidores = new Integer[args.length - 4];
+		servidores = new Integer[args.length - 4];
 		for (int i = 0; i < (args.length - 4); i++) {
 			servidores[i] = Integer.parseInt(args[i + 4]);
 		}

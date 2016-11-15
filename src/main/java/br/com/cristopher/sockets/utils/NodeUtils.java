@@ -2,7 +2,7 @@ package br.com.cristopher.sockets.utils;
 
 public class NodeUtils {
 	
-	private static final String[] verbos = { "GET", "POST", "PUT", "DELETE", "HEAD" };
+	private static final String[] verbos = { "GET", "POST", "PUT", "DELETE", "HEAD", "JUST_POST", "JUST_DELETE" };
 	
 	public static String[] getRequested(String requested) {
 		String[] aux = requested.split("/");

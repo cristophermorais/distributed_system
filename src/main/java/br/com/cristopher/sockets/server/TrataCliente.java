@@ -38,10 +38,41 @@ public class TrataCliente {
 				return trataDelete();
 			case "HEAD":
 				return trataHead();
+			case "JUST_POST":
+				return trataJustPost();
+			case "JUST_DELETE":
+				return trataJustDelete();
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	private synchronized Retorno trataJustPost() throws IOException {
+		Retorno retorno = new Retorno();
+		log.infoLog("Tratando requisição JUST_POST: "+Arrays.toString(this.req.getPath()));
+		
+		if (node == null) {
+			node = NodeDao.justPost(req);
+
+			if (node != null) {
+				retorno.setStatus(HttpResponse.send200());
+				retorno.setCriado(node.getCriado().getTime());
+				retorno.setModificado(node.getModificado().getTime());
+				retorno.setVersao(node.getVersao());
+			} else {
+				retorno.setStatus(HttpResponse.send500());
+			}
+
+		} else {
+			retorno.setStatus(HttpResponse.send200());
+		}
+		return retorno;
+	}
+	
+	private synchronized Retorno trataJustDelete(){
 		return null;
 	}
 	

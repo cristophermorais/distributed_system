@@ -29,6 +29,20 @@ public class NodeDao {
 			return null;
 		}
 	}
+	
+	public static Node justPost(Request request) {
+		log.infoLog("Salvando nó: " + request.getAbsolutePath());
+		
+		Node node = dados.get(request.getAbsolutePath());
+		
+		if(node == null){
+			node =  new Node(request.getAbsolutePath(), request.getConteudo());
+			dados.put(request.getAbsolutePath(), node);
+			return node;
+		}else{
+			return node;
+		}
+	}
 
 	public static Node put(Request req) {
 		log.infoLog("Atualizando nó: "+Arrays.toString(req.getPath()));

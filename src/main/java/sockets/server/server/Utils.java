@@ -22,7 +22,7 @@ public class Utils {
 		}
 
 		public void infoServer(Object obj) {
-			System.out.println(cabServer + getDate() + obj.toString());
+			//System.out.println(cabServer + getDate() + obj.toString());
 			try {
 				buffWrite.append(cabServer + getDate() + obj.toString());
 				buffWrite.append("\n");
@@ -34,7 +34,7 @@ public class Utils {
 		}
 
 		public void infoClient(Object obj) {
-			System.out.println(cabClient + getDate() + obj.toString());
+			//System.out.println(cabClient + getDate() + obj.toString());
 			try {
 				buffWrite.append(cabClient + getDate() + obj.toString());
 				buffWrite.append("\n");

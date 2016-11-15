@@ -1,5 +1,6 @@
 package br.com.cristopher.sockets.data;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
@@ -10,7 +11,7 @@ public class Node {
 	private Date modificado;
 	private int versao = 0;
 	private Vector<String> filhos;
-	private byte[] conteudo;
+	private ByteBuffer conteudo;
 		
 	
 	public Node(String path) {
@@ -21,7 +22,7 @@ public class Node {
 		this.filhos = new Vector<>();
 	}
 	
-	public Node(String path, byte[] conteudo) {
+	public Node(String path, ByteBuffer conteudo) {
 		modificado = new Date();
 		criado = new Date();
 		this.path = path;
@@ -35,7 +36,7 @@ public class Node {
 	}
 
 	public int getContentLength() {
-		return conteudo.length;
+		return conteudo.array().length;
 	}
 
 	public Date getCriado() {
@@ -63,11 +64,11 @@ public class Node {
 		return path;
 	}
 
-	public byte[] getConteudo() {
+	public ByteBuffer getConteudo() {
 		return conteudo;
 	}
 
-	protected void setConteudo(byte[] conteudo) {
+	protected void setConteudo(ByteBuffer conteudo) {
 		this.conteudo = conteudo;
 	}
 

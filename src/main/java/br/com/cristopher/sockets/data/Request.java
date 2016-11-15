@@ -1,7 +1,9 @@
 package br.com.cristopher.sockets.data;
 
+import java.nio.ByteBuffer;
+
 public class Request {
-	private byte[] conteudo;
+	private ByteBuffer conteudo;
 	private final String type;
 	private int contentLength;
 	private String[] path;
@@ -49,10 +51,10 @@ public class Request {
 	public void setChildPath(String childPath){
 		this.childPath = childPath;
 	}
-	public byte[] getConteudo() {
+	public ByteBuffer getConteudo() {
 		return conteudo;
 	}
-	public void setConteudo(byte[] conteudo) {
+	public void setConteudo(ByteBuffer conteudo) {
 		this.conteudo = conteudo;
 	}
 	public String getType() {

@@ -47,7 +47,7 @@ public class HttpTranslator {
 			}
 			try {
 				req.setContentLength(contentLength);
-				req.setConteudo(content.array());
+				req.setConteudo(content);
 			} catch (Exception e) {
 				log.errorLog(e.getMessage());
 			}

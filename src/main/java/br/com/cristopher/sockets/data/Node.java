@@ -6,31 +6,25 @@ import java.util.Vector;
 public class Node {
 	private final Date criado;
 	private final String path;
-	private Node pai = null;
 	private Date modificado;
 	private int versao = 0;
-	private Vector<Node> nodes;
+	private Vector<String> filhos;
 	private byte[] conteudo;
 		
 	
 	public Node(String path) {
 		modificado = new Date();
-		criado =new Date();
+		criado = new Date();
 		this.path = path;
 		this.conteudo = null;
-		this.pai = null;
-		this.nodes = new Vector<Node>();
+		this.filhos = new Vector<>();
 	}
 	
-	public Node(String path, Node pai) {
-		this(path);
-		this.pai = pai;
-		if(this.pai != null){
-			this.pai.add(this);
-		}
-	}
-	public Node(String path, Node pai, byte[] conteudo) {
-		this(path, pai);
+	public Node(String path, byte[] conteudo) {
+		modificado = new Date();
+		criado = new Date();
+		this.path = path;
+		this.filhos = new Vector<>();
 		this.conteudo = conteudo;
 	}
 
@@ -71,15 +65,11 @@ public class Node {
 		this.conteudo = conteudo;
 	}
 
-	protected Node getPai() {
-		return pai;
-	}
-
-	protected Vector<Node> getNodes() {
-		return nodes;
+	protected Vector<String> getFilhos() {
+		return filhos;
 	}
 	
 	protected void add(Node node){
-		this.nodes.add(node);
+		this.filhos.add(node.getPath());;
 	}
 }

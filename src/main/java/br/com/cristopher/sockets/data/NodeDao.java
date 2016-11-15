@@ -2,63 +2,37 @@ package br.com.cristopher.sockets.data;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 
 import br.com.cristopher.sockets.utils.Logger;
 
 public class NodeDao {
-	private static Node root = null;
+	private static HashMap<String, Node> dados = new HashMap<>();
 	private static Logger log = new Logger(true);
 
-	public static Node get(String[] req) {
-		log.infoLog("Obtendo informação: "+Arrays.toString(req));
-		if (root == null) return null;
-		if (req.length == 1 && req[0].equals("/")) return root;
-		
-		boolean encontrado = false;
-		Node aux = root;
-		Vector<Node> nodes; 
-		for (String nodePath : req) {
-			if (!nodePath.equals("/")) {
-				nodes = aux.getNodes();
-				encontrado = false;
-				for (Node node : nodes) {
-					if (node.getPath().equals(nodePath)) {
-						aux = node;
-						encontrado = true;
-						break;
-					}
-				}
-				if (!encontrado) return null;
-			}
-		}
-		if (!encontrado) return null;
-		log.infoLog("Informação encontrada: "+Arrays.toString(req));
-		return aux;
+	public static Node get(String absolutePath) {
+		log.infoLog("Obtendo informação: " + absolutePath);
+		return dados.get(absolutePath);
 	}
 
-	public static Node post(Request req) {
-		log.infoLog("Salvando nó: "+Arrays.toString(req.getPath()));
-		Node node = null;
-		Node nodePai = null;
-		String[] path = req.getPath();
-		if (path.length == 1 && path[0].equals("/")) {
-			root = new Node(path[0], null, req.getConteudo());
-			return root;
+	public static Node post(Request request) {
+		log.infoLog("Salvando nó: " + request.getAbsolutePath());
+		
+		Node node = dados.get(request.getAbsolutePath());
+		
+		if(node == null){
+			node =  new Node(request.getAbsolutePath(), request.getConteudo());
+			dados.put(request.getAbsolutePath(), node);
+			return node;
+		}else{
+			return null;
 		}
-		for (int i = 0; i < path.length; i++) {
-			if (root == null) root = new Node(path[0]);
-			node = NodeDao.get(Arrays.copyOfRange(path, 0, i+1));
-			if (node == null) node = new Node(path[i], nodePai);
-			if (i == (path.length - 1)) node.setConteudo(req.getConteudo());
-			nodePai = node;
-		}
-		return node;
 	}
 
 	public static Node put(Request req) {
 		log.infoLog("Atualizando nó: "+Arrays.toString(req.getPath()));
-		Node node = NodeDao.get(req.getPath());
+		Node node = dados.get(req.getAbsolutePath());
 
 		if (node != null) {
 			node.setVersao(node.getVersao() + 1);
@@ -71,13 +45,14 @@ public class NodeDao {
 	}
 
 	public static boolean delete(Request req) {
-		log.infoLog("Deletando nó: "+Arrays.toString(req.getPath()));
-		Node node = NodeDao.get(req.getPath());
-		if (node.getPath().equals("/")) {
-			root = null;
-		} else {
-			return node.getPai().getNodes().remove(node);
-		}
+		log.infoLog("Deletando nó: "+ req.getAbsolutePath());
+		
+		Node node = dados.get(req.getAbsolutePath());
+		
+		if(node == null)
+			return false;
+		
+		dados.remove(req.getAbsolutePath());
 		return true;
 	}
 }

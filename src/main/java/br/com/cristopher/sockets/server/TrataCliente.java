@@ -17,14 +17,14 @@ public class TrataCliente {
 
 	private Logger log = new Logger(true);
 
-	public TrataCliente(String request, ByteBuffer content) {
-		req = HttpTranslator.translate(request, content);
+	public TrataCliente(Request req) {
+		this.req = req;
 	}
 
 	public Retorno run() {
 		try {
 			
-			node = NodeDao.get(req.getPath());
+			node = NodeDao.get(req.getAbsolutePath());
 						
 			switch (req.getType()) {
 

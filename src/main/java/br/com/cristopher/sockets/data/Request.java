@@ -6,6 +6,20 @@ public class Request {
 	private int contentLength;
 	private String[] path;
 	
+	public String getAbsolutePath(){
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < path.length; i++){
+			if(i > 1){
+				sb.append("/");
+			}
+			
+			sb.append(path[i]);
+		}
+		
+		return sb.toString();
+	}
+	
 	public Request(String type) {
 		this.type = type;
 	}

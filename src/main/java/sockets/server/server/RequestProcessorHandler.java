@@ -50,7 +50,7 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 					retorno.setStatus(HttpResponse.send400());
 					return retorno;
 				}
-				
+
 				auxPath = "";
 
 				for (int i = 0; i < path.length; i++) {
@@ -59,7 +59,7 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 						parentPath = null;
 					} else {
 						parentPath = auxPath;
-						
+
 						if (auxPath.endsWith("/")) {
 							auxPath += path[i];
 						} else {
@@ -67,7 +67,8 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 						}
 					}
 
-					//se não for o ultimo elemento do Path[] cria uma requisicao JUST_POST
+					// se não for o ultimo elemento do Path[] cria uma
+					// requisicao JUST_POST
 					if (i < path.length - 1) {
 						String aux = "JUST_POST " + auxPath + " HTTP/1.1" + "\nContent-Length: 0";
 						int respServer = Math.abs(auxPath.hashCode()) % Server.servidores.length;
@@ -78,79 +79,83 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 							trtCli = new TrataCliente(auxReq);
 							trtCli.run();
 						} else {
-							//se não for o responsavel encaminha o JUST_POST
+							// se não for o responsavel encaminha o JUST_POST
 							Retorno rPost1 = requestSend(Server.servidores[respServer], aux, null);
-							
-							//se JUST_POST deu errado retorna erro
-							if(rPost1.getStatusCode() != 200){
+
+							// se JUST_POST deu errado retorna erro
+							if (rPost1.getStatusCode() != 200) {
 								retorno.setStatus(HttpResponse.send500());
 								return retorno;
-							}else{
-								//se JUST_POST deu certo, agora atualiza a lista de filhos do pai
-								
-								//se parentPath != nul entao precisa autalizar a lista de filhos
-								if(parentPath != null){
-									String child = "POST_CHILD " + parentPath + " HTTP/1.1"
-											+"\nChild-Path: " +  auxPath
-												+ "\nContent-Length: 0";
+							} else {
+								// se JUST_POST deu certo, agora atualiza a
+								// lista de filhos do pai
+
+								// se parentPath != nul entao precisa autalizar
+								// a lista de filhos
+								if (parentPath != null) {
+									String child = "POST_CHILD " + parentPath + " HTTP/1.1" + "\nChild-Path: " + auxPath
+											+ "\nContent-Length: 0";
 									respServer = Server.responseServer(parentPath);
-									
-									//se o servidor for responsavel trata requisicao POST_CHILD
-									if(Server.port == Server.servidores[respServer]){
+
+									// se o servidor for responsavel trata
+									// requisicao POST_CHILD
+									if (Server.port == Server.servidores[respServer]) {
 										Request childReq = HttpTranslator.translate(child, null);
 										trtCli = new TrataCliente(childReq);
 										rPost1 = trtCli.run();
-										
-										if(rPost1.getStatusCode() != 200){
+
+										if (rPost1.getStatusCode() != 200) {
 											retorno.setStatus(HttpResponse.send500());
 											return retorno;
 										}
-										
-									}else{
-										//se nao for responsavel envia requisicao pro responssavel
+
+									} else {
+										// se nao for responsavel envia
+										// requisicao pro responssavel
 										rPost1 = requestSend(Server.servidores[respServer], child, null);
-										
-										if(rPost1.getStatusCode() != 200){
+
+										if (rPost1.getStatusCode() != 200) {
 											retorno.setStatus(HttpResponse.send500());
 											return retorno;
 										}
-										
+
 									}
 								}
 							}
-							
-							
+
 						}
 					} else {
-						//se for o ultimo elemento trata a requisicao POST
-						String child = "POST_CHILD " + parentPath + " HTTP/1.1"
-								+"\nChild-Path: " +  auxPath
+						// se for o ultimo elemento trata a requisicao POST
+
+						// se NAO for raiz faz o POST_CHILD
+						if (parentPath != null) {
+							String child = "POST_CHILD " + parentPath + " HTTP/1.1" + "\nChild-Path: " + auxPath
 									+ "\nContent-Length: 0";
-						int respServer = Server.responseServer(parentPath);
-						Retorno rPost2;
-						
-						//se for responsavel pelo POST_CHILD trata aqui
-						if(Server.port == Server.servidores[respServer]){
-							Request childReq = HttpTranslator.translate(child, null);
-							trtCli = new TrataCliente(childReq);
-							rPost2 = trtCli.run();
-						}else{
-							rPost2 = requestSend(Server.servidores[respServer], child, null);
+							int respServer = Server.responseServer(parentPath);
+							Retorno rPost2;
+
+							// se for responsavel pelo POST_CHILD trata aqui
+							if (Server.port == Server.servidores[respServer]) {
+								Request childReq = HttpTranslator.translate(child, null);
+								trtCli = new TrataCliente(childReq);
+								rPost2 = trtCli.run();
+							} else {
+								rPost2 = requestSend(Server.servidores[respServer], child, null);
+							}
+
+							if (rPost2.getStatusCode() != 200) {
+								retorno.setStatus(HttpResponse.send500());
+								return retorno;
+							}
 						}
-						
-						//se resposta do POST_CHILD for diferente de 200 aborta
-						if(rPost2.getStatusCode() != 200){
-							retorno.setStatus(HttpResponse.send500());
-							return retorno;
-						}else{
-							trtCli = new TrataCliente(req);
-							retorno = trtCli.run();
-							return retorno;
-						}
+
+						trtCli = new TrataCliente(req);
+						retorno = trtCli.run();
+						return retorno;
 					}
 				}
 				break;
-				
+
 			case "DELETE":
 				node = NodeDao.get(req.getAbsolutePath());
 
@@ -169,14 +174,23 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 					for (String filho : filhos) {
 						int respServer = Math.abs(filho.hashCode()) % Server.servidores.length;
 						String aux = "DELETE " + filho + " HTTP/1.1" + "\nContent-Length: 0";
-						Retorno rDel = requestSend(Server.servidores[respServer], aux, null);
+						Retorno rDel;
+						
+						if(Server.port == Server.servidores[respServer]){
+							Request delReq = HttpTranslator.translate(aux, null);
+							trtCli = new TrataCliente(delReq);
+							rDel = trtCli.run();
+						}else{
+							rDel = requestSend(Server.servidores[respServer], aux, null);
+						}
 					}
-					
+
 					trtCli = new TrataCliente(req);
 					retorno = trtCli.run();
+					
 				}
 				break;
-				
+
 			case "PUT":
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();

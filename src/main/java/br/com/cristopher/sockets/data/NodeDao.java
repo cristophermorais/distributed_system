@@ -73,7 +73,8 @@ public class NodeDao {
 		Node node = dados.get(req.getAbsolutePath());
 		
 		if (node != null) {
-			node.add(req.getChildPath());
+			if(!node.getFilhos().contains(req.getChildPath()))
+				node.add(req.getChildPath());
 			return true;
 		}
 		

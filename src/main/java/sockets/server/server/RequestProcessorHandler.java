@@ -15,7 +15,10 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 	@Override
 	public Retorno request(String request, ByteBuffer content) {
 		TrataCliente trtCli = new TrataCliente(request, content);
-		return trtCli.run();
+		Retorno r = trtCli.run();
+//		r.setStatus("deu certo");
+//		return r;
+		return r;
 	}
 
 }

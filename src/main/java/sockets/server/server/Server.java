@@ -47,6 +47,7 @@ public class Server {
 			log.infoServer("Esperando " + time + " segundos para iniciar ...");
 			Thread.sleep(time * 1000);
 			for (Integer i : servidores) {
+				if(port == i) continue;
 				new Thread(new InternalProcessor(i)).start();
 			}
 		} catch (Exception x) {

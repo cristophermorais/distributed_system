@@ -19,9 +19,9 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 		return 3;
 	}
 
-	public Retorno request(String stringRequest, ByteBuffer content) {
+	public Retorno request(String strRequest, ByteBuffer content) {
 		Retorno retorno = new Retorno();
-		Request req = HttpTranslator.translate(stringRequest, content);
+		Request req = HttpTranslator.translate(strRequest, content);
 		String url = req.getAbsolutePath();
 		int nServer = Math.abs(url.hashCode()) % Server.servidores.length;
 
@@ -43,6 +43,10 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 				retorno = delete(req);
 				break;
 
+			case "DELETE_VERSION":
+				retorno = deleteVersion(strRequest);
+				break;
+
 			case "LIST":
 				retorno = list(req);
 				break;
@@ -51,22 +55,31 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+
+			case "PUT_VERSION":
+				retorno = putVersion(strRequest, content);
+				break;
+
 			case "HEAD":
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+
 			case "JUST_POST":
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+
 			case "POST_CHILD":
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+
 			case "DELETE_CHILD":
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+
 			default:
 				retorno.setStatus(HttpResponse.send500());
 				break;
@@ -74,7 +87,7 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 
 		} else {
 			// encaminha para o servidor Server.servidores[nServer]
-			retorno = requestSend(Server.servidores[nServer], stringRequest, content);
+			retorno = requestSend(Server.servidores[nServer], strRequest, content);
 		}
 
 		return retorno;
@@ -265,7 +278,7 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 				for (int i = 1; i < (split.length - 1); i++) {
 					parentPath += "/" + split[i];
 				}
-			} else if(split.length == 2) {
+			} else if (split.length == 2) {
 				parentPath = "/";
 			}
 
@@ -317,5 +330,51 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 			retorno.setStatus(HttpResponse.send200());
 		}
 		return retorno;
+	}
+
+	public Retorno putVersion(String strRequest, ByteBuffer content){
+		TrataCliente trtCli;
+		Retorno retorno = new Retorno();
+		Request request = HttpTranslator.translate(strRequest, null);
+		Node node;
+		node = NodeDao.get(request.getAbsolutePath());
+
+		if (node != null) {
+			if (request.getVersion() == node.getVersao()) {
+				String aux = strRequest.replaceFirst("PUT_VERSION", "PUT");
+				request = HttpTranslator.translate(aux, content);
+				trtCli = new TrataCliente(request);
+				retorno = trtCli.run();
+				return retorno;
+			}else{
+				retorno.setStatus(HttpResponse.send400());
+				return retorno;
+			}
+		} else {
+			retorno.setStatus(HttpResponse.send404());
+			return retorno;
+		}
+	}
+	
+	public Retorno deleteVersion(String strRequest) {
+		Retorno retorno = new Retorno();
+		Request request = HttpTranslator.translate(strRequest, null);
+		Node node;
+		node = NodeDao.get(request.getAbsolutePath());
+
+		if (node != null) {
+			if (request.getVersion() == node.getVersao()) {
+				String aux = strRequest.replaceFirst("DELETE_VERSION", "DELETE");
+				request = HttpTranslator.translate(aux, null);
+				retorno = delete(request);
+				return retorno;
+			}else{
+				retorno.setStatus(HttpResponse.send400());
+				return retorno;
+			}
+		} else {
+			retorno.setStatus(HttpResponse.send404());
+			return retorno;
+		}
 	}
 }

@@ -6,6 +6,7 @@ public class Request {
 	private ByteBuffer conteudo;
 	private final String type;
 	private int contentLength;
+	private int version;
 	private String[] path;
 	private String childPath; //somente para requisicoes POST_CHILD
 	private boolean deleteChild; //somente para DELETE do nó no nível mais alto (endereco da requisicao)
@@ -46,7 +47,12 @@ public class Request {
 		this.path = path;
 	}
 	
-	
+	public int getVersion(){
+		return version;
+	}
+	public void setVersion(int version){
+		this.version = version;
+	}
 	public boolean getDeleteChild(){
 		return deleteChild;
 	}

@@ -40,6 +40,10 @@ public class HttpTranslator {
 					if(aux[0].startsWith("Delete-Parent-Child:")){
 						req.setDeleteChild(true);
 					}
+					
+					if(aux[0].startsWith("Version:")){
+						req.setVersion(Integer.parseInt(aux[1]));
+					}
 				}
 			}
 		}

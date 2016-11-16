@@ -135,7 +135,7 @@ public class TrataCliente {
 			}
 
 		} else {
-			retorno.setStatus(HttpResponse.send500());
+			retorno.setStatus(HttpResponse.send400());
 		}
 		return retorno;
 	}
@@ -156,7 +156,7 @@ public class TrataCliente {
 			}
 
 		} else {
-			retorno.setStatus(HttpResponse.send500());
+			retorno.setStatus(HttpResponse.send404());
 		}
 		return retorno;
 	}
@@ -177,7 +177,7 @@ public class TrataCliente {
 			}
 
 		} else {
-			retorno.setStatus(HttpResponse.send500());
+			retorno.setStatus(HttpResponse.send404());
 		}
 		return retorno;
 	}

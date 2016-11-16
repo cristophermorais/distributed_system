@@ -1,9 +1,10 @@
 package br.com.cristopher.sockets.utils;
 
 public class NodeUtils {
-	
-	private static final String[] verbos = { "GET", "POST", "PUT", "DELETE", "HEAD", "JUST_POST", "POST_CHILD", "LIST", "DELETE_CHILD" };
-	
+
+	private static final String[] verbos = { "GET", "POST", "PUT", "DELETE", "HEAD", "JUST_POST",
+			"POST_CHILD", "LIST", "DELETE_CHILD", "PUT_VERSION", "DELETE_VERSION" };
+
 	public static String[] getRequested(String requested) {
 		String[] aux = requested.split("/");
 		if (requested.startsWith("/")) {
@@ -16,7 +17,6 @@ public class NodeUtils {
 		}
 		return aux;
 	}
-	
 
 	public static boolean inVerbos(String type) {
 

@@ -63,6 +63,10 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 				trtCli = new TrataCliente(req);
 				retorno = trtCli.run();
 				break;
+			case "DELETE_CHILD":
+				trtCli = new TrataCliente(req);
+				retorno = trtCli.run();
+				break;
 			default:
 				retorno.setStatus(HttpResponse.send500());
 				break;
@@ -87,8 +91,8 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 		retorno = trtCli.run();
 		return retorno;
 	}
-	
-	public Retorno post(Request req){
+
+	public Retorno post(Request req) {
 		Retorno retorno = new Retorno();
 		Node node;
 		String auxPath;
@@ -208,8 +212,8 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 		}
 		return retorno;
 	}
-	
-	public Retorno delete(Request req){
+
+	public Retorno delete(Request req) {
 		Retorno retorno = new Retorno();
 		List<String> filhos;
 		TrataCliente trtCli;
@@ -240,8 +244,8 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 				} else {
 					rDel = requestSend(Server.servidores[respServer], aux, null);
 				}
-				
-				if(rDel.getStatusCode() != 200){
+
+				if (rDel.getStatusCode() != 200) {
 					retorno.setStatus(HttpResponse.send500());
 					return retorno;
 				}
@@ -251,15 +255,52 @@ public class RequestProcessorHandler implements RequestProcessor.Iface {
 			retorno = trtCli.run();
 
 		}
+
+		// se nao for a raiz requisita DELETE_CHILD para o pai
+		if (!node.getPath().equals("/") && req.getDeleteChild()) {
+			String[] split = node.getPath().split("/");
+			String parentPath = "";
+
+			if (split.length > 2) {
+				for (int i = 1; i < (split.length - 1); i++) {
+					parentPath += "/" + split[i];
+				}
+			} else if(split.length == 2) {
+				parentPath = "/";
+			}
+
+			String auxStrReq = "DELETE_CHILD " + parentPath + " HTTP/1.1" + "\nChild-Path: " + node.getPath()
+					+ "\nContent-Length: 0";
+
+			int respServer = Server.responseServer(parentPath);
+
+			Retorno rDel;
+
+			// se for o responsavel pelo parentPath trata requisicao, senao
+			// encaminha
+			if (Server.port == Server.servidores[respServer]) {
+				Request auxReq = HttpTranslator.translate(auxStrReq, null);
+				trtCli = new TrataCliente(auxReq);
+				rDel = trtCli.run();
+			} else {
+				rDel = requestSend(Server.servidores[respServer], auxStrReq, null);
+			}
+
+			if (rDel.getStatusCode() != 200) {
+				retorno.setStatus(HttpResponse.send500());
+				return retorno;
+			}
+		}
+
 		return retorno;
 	}
-	
-	public Retorno list(Request req){
+
+	public Retorno list(Request req) {
 		Retorno retorno = new Retorno();
 		List<String> filhos;
 		Node node;
 		node = NodeDao.get(req.getAbsolutePath());
-		
+
 		if (node == null) {
 			retorno.setStatus(HttpResponse.send404());
 		} else {

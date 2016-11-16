@@ -8,6 +8,7 @@ public class Request {
 	private int contentLength;
 	private String[] path;
 	private String childPath; //somente para requisicoes POST_CHILD
+	private boolean deleteChild; //somente para DELETE do nó no nível mais alto (endereco da requisicao)
 	
 	public String getAbsolutePath(){
 		StringBuilder sb = new StringBuilder();
@@ -45,6 +46,13 @@ public class Request {
 		this.path = path;
 	}
 	
+	
+	public boolean getDeleteChild(){
+		return deleteChild;
+	}
+	public void setDeleteChild(boolean deleteChild){
+		this.deleteChild = deleteChild;
+	}
 	public String getChildPath(){
 		return childPath;
 	}

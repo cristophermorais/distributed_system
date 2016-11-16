@@ -20,6 +20,7 @@ public class HttpTranslator {
 			String[] aux = line.split(" ");
 			if (NodeUtils.inVerbos(aux[0])) {
 				req = new Request(aux[0], NodeUtils.getRequested(aux[1]));
+				req.setDeleteChild(false);
 			} else {
 				if (line.isEmpty())
 					break;
@@ -34,6 +35,10 @@ public class HttpTranslator {
 					
 					if (aux[0].startsWith("Child-Path:")) {
 						req.setChildPath(aux[1]);
+					}
+					
+					if(aux[0].startsWith("Delete-Parent-Child:")){
+						req.setDeleteChild(true);
 					}
 				}
 			}

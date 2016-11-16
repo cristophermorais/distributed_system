@@ -80,4 +80,17 @@ public class NodeDao {
 		
 		return false;
 	}
+	
+	public static boolean deleteChild(Request req) {
+		Node node = dados.get(req.getAbsolutePath());
+
+		if (node != null) {
+			if (node.getFilhos().contains(req.getChildPath())) {
+				node.deleteChild(req.getChildPath());
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

@@ -79,4 +79,8 @@ public class Node {
 	protected void add(String childPath){
 		this.filhos.add(childPath);;
 	}
+	
+	protected void deleteChild(String childPath){
+		this.filhos.remove(childPath);
+	}
 }

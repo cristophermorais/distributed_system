@@ -39,15 +39,34 @@ public class TrataCliente {
 			return trataJustPost();
 		case "POST_CHILD":
 			return trataPostChild();
+		case "DELETE_CHILD":
+			return trataDeleteChild();
 
 		}
 
 		return null;
 	}
+	
+	private synchronized Retorno trataDeleteChild(){
+		Retorno retorno = new Retorno();
+		log.infoLog("Tratando requisição DELETE_CHILD: " + Arrays.toString(this.req.getPath()));
+		
+		if(node != null){
+			if(NodeDao.deleteChild(req)){
+				retorno.setStatus(HttpResponse.send200());
+			}else{
+				retorno.setStatus(HttpResponse.send500());
+			}
+		}else{
+			retorno.setStatus(HttpResponse.send500());
+		}
+		
+		return retorno;
+	}
 
 	private synchronized Retorno trataPostChild() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o POST_CHILD: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição POST_CHILD: " + Arrays.toString(this.req.getPath()));
 
 		if (node != null) {
 			NodeDao.addChild(req);
@@ -61,7 +80,7 @@ public class TrataCliente {
 
 	private synchronized Retorno trataJustPost() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o JUST_POST: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição JUST_POST: " + Arrays.toString(this.req.getPath()));
 
 		if (node == null) {
 			node = NodeDao.justPost(req);
@@ -83,7 +102,7 @@ public class TrataCliente {
 
 	private synchronized Retorno trataGet() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o GET: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição GET: " + Arrays.toString(this.req.getPath()));
 		if (node == null)
 			retorno.setStatus(HttpResponse.send404());
 		else {
@@ -102,7 +121,7 @@ public class TrataCliente {
 
 	private synchronized Retorno trataPost() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o POST: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição POST: " + Arrays.toString(this.req.getPath()));
 		if (node == null) {
 			node = NodeDao.post(req);
 
@@ -123,7 +142,7 @@ public class TrataCliente {
 
 	private synchronized Retorno trataPut() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o PUT: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição PUT: " + Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			node = NodeDao.put(req);
 
@@ -144,7 +163,7 @@ public class TrataCliente {
 
 	private synchronized Retorno trataDelete() {
 		Retorno retorno = new Retorno();
-		log.infoLog("Tratando requisiÃ§Ã£o DELETE: " + Arrays.toString(this.req.getPath()));
+		log.infoLog("Tratando requisição DELETE: " + Arrays.toString(this.req.getPath()));
 		if (node != null) {
 			boolean ok = NodeDao.delete(req);
 
